@@ -1,0 +1,4888 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <meta http-equiv="Permissions-Policy" content="microphone=(self)">
+  <!--Improve This By developing the Content-->
+  <meta name="description"
+  content="Institutify — Frictionless institutional administration. Proven across 4 institutions.">
+  <!--Remove when backend is ready-->
+  <meta http-equiv="X-Frame-Options" content="DENY">
+  <meta name="theme-color" content="#0A0A0A">
+  <!--Fevicon NEED REAL DATA-->
+  <link rel="icon" href="favicon.ico" type="image/x-icon">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="#.png">
+  <title>Institutify · Smart Management System (CMS & ERP) · v1.9</title>
+  <!-- Critical CSS: tokens + component styles inlined for zero render-blocking -->  
+  <style>
+    /* ╔════════════════════════════════════════════════════════════════╗
+   ║  INSTITUTIFY — MASTER STYLESHEET  v2026.5 · Black Label        ║
+   ║                                                                ║
+   ║  Architecture: S = { (V, T, C) | V ∈ {Desktop, Mobile},        ║
+   ║                                   T ∈ {Dark, Light},           ║
+   ║                                   C ∈ {Components} }           ║
+   ║                                                                ║
+   ║  Reading order:                                                ║
+   ║    §0  TOKENS & FOUNDATION  — V-agnostic, T-agnostic           ║
+   ║    §1  DESKTOP · DARK       — Subset 1  (V=Desktop, T=Dark)    ║
+   ║    §2  DESKTOP · LIGHT      — Subset 2  (V=Desktop, T=Light)   ║
+   ║    §3  MOBILE  · DARK       — Subset 3  (V=Mobile,  T=Dark)    ║
+   ║    §4  MOBILE  · LIGHT      — Subset 4  (V=Mobile,  T=Light)   ║
+   ╚════════════════════════════════════════════════════════════════╝ */
+
+
+/* ════════════════════════════════════════════════════════════════════════════
+   §0  TOKENS & FOUNDATION
+       Scope:  Viewport-agnostic · Theme-agnostic
+       WHY:    Design tokens sit above the S-set. They are the axioms from
+               which every rule in §1–§4 is derived. Changing a single token
+               here propagates correctly through all four subsets without
+               touching any component rule.
+   ════════════════════════════════════════════════════════════════════════════ */
+
+/* §0.1 — Design Tokens (:root dark defaults) */
+:root {
+  --obsidian: #050505;
+  --obsidian-2: #0c0c0d;
+  --obsidian-3: #141415;
+  --obsidian-4: #1c1c1e;
+  --obsidian-5: #242426;
+  --titanium: #E5E5E5;
+  --titanium-2: #C8C8CA;
+  --titanium-3: #AEAEB2;
+  --titanium-dim: #8E8E93;
+  --titanium-ghost: #636366;
+  --blue: #007BFF;
+  --blue-dim: rgba(0, 123, 255, 0.13);
+  --blue-glow: rgba(0, 123, 255, 0.28);
+  --success: rgba(52, 199, 89, 0.85);
+  --warning: rgba(255, 159, 10, 0.85);
+  --critical: rgba(255, 59, 48, 0.82);
+  --glass-bg: rgba(255, 255, 255, 0.035);
+  --glass-border: rgba(255, 255, 255, 0.08);
+  --glass-border-hi: rgba(255, 255, 255, 0.15);
+  --glass-inner-glow: inset 0 0 0 0.5px rgba(255, 255, 255, 0.11);
+  --rule: rgba(255, 255, 255, 0.055);
+  --sp-1: 8px;
+  --sp-2: 13px;
+  --sp-3: 21px;
+  --sp-4: 34px;
+  --sp-5: 55px;
+  --sp-6: 89px;
+  --sp-7: 144px;
+  --font-display: 'Didot', 'Bodoni MT', 'Playfair Display', Georgia, serif;
+  --font-body: -apple-system, 'SF Pro Text', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  --font-mono: 'SF Mono', 'Fira Code', 'JetBrains Mono', 'Courier New', monospace;
+  --ease: cubic-bezier(0.2, 0, 0, 1);
+  --ease-bloom: cubic-bezier(0.0, 0.0, 0.2, 1);
+  --t-inhale: 0.4s;
+  --t-hold: 0.7s;
+  --t-exhale: 0.8s;
+  --t-haptic: 0.05s;
+  --bp-sm: 480px;
+  --bp-md: 768px;
+  --bp-lg: 1024px;
+  --bp-xl: 1280px;
+
+  /* ── T-Set Sector Accents — S = { Education, Healthcare, Finance, Government }
+     --sector-active is overwritten by activateSectorMorphingEngine().
+     Every downstream effect reads --sector-active; one token write
+     propagates the Total System Pivot with zero DOM iteration.          */
+  --sector-edu: #007BFF;
+  --sector-hlth: #1DB87E;
+  --sector-fin: #C9963A;
+  --sector-gov: #AF52DE;
+  --sector-active: #007BFF;
+  --glass-bg: rgba(255, 255, 255, 0.035);
+  --glass-border: rgba(255, 255, 255, 0.08);
+  --glass-border-hi: rgba(255, 255, 255, 0.15);
+  --glass-inner-glow: inset 0 0 0 0.5px rgba(255, 255, 255, 0.11);
+  --rule: rgba(255, 255, 255, 0.055);
+  --sp-1: 8px;
+  --sp-2: 13px;
+  --sp-3: 21px;
+  --sp-4: 34px;
+  --sp-5: 55px;
+  --sp-6: 89px;
+  --sp-7: 144px;
+  --font-display: 'Didot', 'Bodoni MT', 'Playfair Display', Georgia, serif;
+  --font-body: -apple-system, 'SF Pro Text', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  --font-mono: 'SF Mono', 'Fira Code', 'JetBrains Mono', 'Courier New', monospace;
+  --ease: cubic-bezier(0.2, 0, 0, 1);
+  --ease-bloom: cubic-bezier(0.0, 0.0, 0.2, 1);
+  --t-inhale: 0.4s;
+  --t-hold: 0.7s;
+  --t-exhale: 0.8s;
+  --t-haptic: 0.05s;
+  --bp-sm: 480px;
+  --bp-md: 768px;
+  --bp-lg: 1024px;
+  --bp-xl: 1280px;
+}
+
+
+
+
+
+/* §0.2 — Base Reset */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+  font-size: 16px;
+}
+
+body {
+  font-family: var(--font-body);
+  background: var(--obsidian);
+  color: var(--titanium);
+  min-height: 100vh;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  padding-bottom: 64px;
+  transition: background var(--t-exhale) var(--ease), color var(--t-exhale) var(--ease);
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  background: none;
+  font: inherit;
+  color: inherit;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+.clamp-text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+}
+
+:focus-visible {
+  outline: 2px solid var(--blue);
+  outline-offset: 3px;
+}
+
+/* §0.3 — Reduced Motion */
+@media(prefers-reduced-motion:reduce) {
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: .01ms !important;
+    transition-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}
+
+/* §0.5 — Typography Scale */
+.t-display {
+  font-family: var(--font-display);
+  font-size: clamp(2.6rem, 6vw, 5.5rem);
+  font-weight: 400;
+  line-height: 1.06;
+  letter-spacing: -0.03em;
+}
+
+.t-h2 {
+  font-family: var(--font-display);
+  font-size: clamp(1.7rem, 3.5vw, 3rem);
+  font-weight: 400;
+  line-height: 1.12;
+  letter-spacing: -0.025em;
+}
+
+.t-h3 {
+  font-family: var(--font-display);
+  font-size: clamp(1.15rem, 2.2vw, 1.75rem);
+  font-weight: 400;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+}
+
+.t-label {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--titanium-ghost);
+}
+
+.t-body {
+  font-size: clamp(0.875rem, 1.5vw, 1rem);
+  line-height: 1.78;
+  color: var(--titanium-dim);
+  max-width: 56ch;
+}
+
+.t-mono {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  letter-spacing: 0.04em;
+}
+
+/* §0.6 — Layout Primitives */
+section {
+  border-top: 1px solid var(--rule);
+}
+
+.section-pad {
+  padding: clamp(var(--sp-6), 11vw, 144px) clamp(var(--sp-4), 7vw, 110px);
+}
+
+.vault-table {
+  overflow-x: auto;
+}
+
+.container {
+  max-width: 1240px;
+  margin: 0 auto;
+}
+
+.rule-line {
+  width: 100%;
+  height: 1px;
+  background: var(--rule);
+}
+
+.sec-header {
+  margin-bottom: var(--sp-6);
+}
+
+.sec-header .t-label {
+  margin-bottom: var(--sp-3);
+}
+
+
+
+
+/* §0.7 — Scroll-Reveal */
+.reveal {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity var(--t-inhale) var(--ease), transform var(--t-inhale) var(--ease);
+}
+
+.reveal.in {
+  opacity: 1;
+  transform: none;
+}
+
+.reveal.d1.in {
+  transition-delay: 0.08s;
+}
+
+.reveal.d2.in {
+  transition-delay: 0.16s;
+}
+
+.reveal.d3.in {
+  transition-delay: 0.24s;
+}
+
+.reveal.d4.in {
+  transition-delay: 0.32s;
+}
+
+/* §0.8 — Keyframes */
+@keyframes shimmerSlide {
+  from {
+    background-position: -400px 0;
+  }
+
+  to {
+    background-position: 400px 0;
+  }
+}
+
+@keyframes hexReveal {
+  from {
+    opacity: 0;
+    transform: scale(0.82);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes heartbeat {
+
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  50% {
+    opacity: 0.35;
+    transform: scale(0.65);
+  }
+}
+
+@keyframes wssOffline {
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.2;
+  }
+}
+
+@keyframes scanBeam {
+  from {
+    transform: translateY(100%);
+  }
+
+  to {
+    transform: translateY(-100%);
+  }
+}
+
+@keyframes drawPath {
+  from {
+    stroke-dashoffset: 1400;
+  }
+
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes riseBar {
+  from {
+    transform: scaleY(0);
+  }
+
+  to {
+    transform: scaleY(1);
+  }
+}
+
+@keyframes riseBarX {
+  from {
+    transform: scaleX(0);
+  }
+
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@keyframes bloom {
+  0% {
+    opacity: 0;
+    transform: scale(0);
+  }
+
+  40% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+    transform: scale(2.8);
+  }
+}
+
+@keyframes dotVibrate {
+
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+
+  25% {
+    transform: translate(-1.8px, 1.2px);
+  }
+
+  75% {
+    transform: translate(1.8px, -1.2px);
+  }
+}
+
+@keyframes gravityPull {
+  0% {
+    opacity: .22;
+    transform: translate(var(--dx), var(--dy)) scale(1);
+  }
+
+  100% {
+    opacity: 0;
+    transform: translate(0, 0) scale(.25);
+  }
+}
+
+@keyframes luminousPulse {
+
+  0%,
+  100% {
+    opacity: 0;
+  }
+
+  50% {
+    opacity: 1;
+  }
+}
+
+@keyframes waffleReveal {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes treemapReveal {
+  from {
+    opacity: 0;
+    transform: scaleY(0);
+  }
+
+  to {
+    opacity: 1;
+    transform: scaleY(1);
+  }
+}
+
+@keyframes perfPulse {
+
+  0%,
+  100% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.04);
+  }
+}
+
+@keyframes dividendTick {
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: .62;
+  }
+}
+
+@keyframes arrowUp {
+  to {
+    transform: rotate(0deg);
+  }
+}
+
+@keyframes arrowDown {
+  to {
+    transform: rotate(180deg);
+  }
+}
+
+/* §0.9 — Global Interaction Primitives */
+.btn-primary {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-1);
+  background: var(--blue);
+  color: #fff;
+  padding: 13px var(--sp-5);
+  border-radius: 3px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  overflow: hidden;
+  transition: opacity 0.2s var(--ease), transform var(--t-haptic) var(--ease);
+}
+
+.btn-primary::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.18) 50%, transparent 100%);
+  background-size: 400px 100%;
+  animation: shimmerSlide 3s ease-in-out infinite;
+  pointer-events: none;
+}
+
+.btn-primary:hover {
+  opacity: 0.87;
+}
+
+.btn-primary:active {
+  transform: scale(0.97);
+  transition-duration: var(--t-haptic);
+}
+
+.btn-primary:focus-visible {
+  outline: 2px solid var(--blue);
+  outline-offset: 3px;
+}
+
+.btn-primary.scaling::after {
+  animation-duration: 1.5s;
+}
+
+.btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-1);
+  color: var(--titanium-dim);
+  padding: 13px var(--sp-5);
+  border-radius: 3px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--glass-inner-glow);
+  transition: color 0.2s var(--ease), border-color 0.2s var(--ease), transform var(--t-haptic) var(--ease);
+}
+
+.btn-ghost:hover {
+  color: var(--titanium);
+  border-color: var(--glass-border-hi);
+}
+
+.btn-ghost:active {
+  transform: scale(0.97);
+  transition-duration: var(--t-haptic);
+}
+
+.btn-ghost:focus-visible {
+  outline: 2px solid var(--glass-border-hi);
+  outline-offset: 3px;
+}
+
+.skip-link {
+  position: fixed;
+  top: -100px;
+  left: var(--sp-4);
+  z-index: 9999;
+  background: var(--blue);
+  color: #fff;
+  padding: 10px 16px;
+  border-radius: 3px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  transition: top 0.2s var(--ease);
+}
+
+.skip-link:focus {
+  top: var(--sp-4);
+}
+
+#security-table-wrap {
+  overflow-x: auto;
+}
+
+/* ── Bloom + Luminous layers ──────────────────────────────────────── */
+#bloom-layer {
+  position: fixed;
+  inset: 0;
+  z-index: 9500;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.bloom-ring {
+  position: absolute;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(0, 123, 255, .6) 0%, rgba(0, 123, 255, 0) 70%);
+  transform: scale(0);
+  animation: bloom 1.6s cubic-bezier(0, 0, .2, 1) forwards;
+  margin-left: -30px;
+  margin-top: -30px;
+}
+
+#luminous-layer {
+  position: fixed;
+  inset: 0;
+  z-index: 8900;
+  pointer-events: none;
+  background: radial-gradient(ellipse at 50% 50%, rgba(0, 123, 255, .07) 0%, transparent 70%);
+  opacity: 0;
+}
+
+#luminous-layer.pulsing {
+  animation: luminousPulse 10s ease-in-out forwards;
+}
+
+
+/* ════════════════════════════════════════════════════════════════════════════
+   §1  DESKTOP · DARK THEME   (V=Desktop, T=Dark)
+       Scope:  Cascade default — no media query wrapper required.
+       WHY:    All base component geometry and dark colour values live here.
+               §2 overrides colour tokens. §3 overrides layout geometry.
+               §4 is the intersection of §2 + §3 for edge cases only.
+   ════════════════════════════════════════════════════════════════════════════ */
+
+/* §1.1 — Desktop · Dark · Logo and Status */
+#logo {
+  position: relative;
+  z-index: 600;
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  padding: 1.3%
+}
+
+#logo-mark {
+  width: 34px;
+  height: 34px;
+}
+
+.logo-first-visit #logo-mark {
+  animation: hexReveal 0.5s var(--ease) both;
+}
+
+#logo-name {
+  font-family: var(--font-display);
+  font-size: 1rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  animation: fadeIn 0.4s var(--ease) 0.35s both;
+}
+
+#logo-tier {
+  font-family: var(--font-mono);
+  font-size: 0.5rem;
+  letter-spacing: 0.2em;
+  color: var(--blue);
+  display: block;
+  margin-top: 2px;
+}
+
+#hb-wrap {
+  position: fixed;
+  top: var(--sp-4);
+  right: var(--sp-4);
+  z-index: 600;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  animation: fadeIn 0.4s var(--ease) 1.1s both;
+}
+
+.hb-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--blue);
+  animation: heartbeat 2.2s ease-in-out infinite;
+}
+
+.hb-dot:nth-child(2) {
+  animation-delay: 0.28s;
+  opacity: 0.6;
+}
+
+.hb-dot:nth-child(3) {
+  animation-delay: 0.56s;
+  opacity: 0.3;
+}
+
+.hb-lbl {
+  font-family: var(--font-mono);
+  font-size: 0.56rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--titanium-ghost);
+  margin-left: 3px;
+}
+
+#hb-wrap.lost .hb-dot {
+  background: var(--titanium-ghost);
+  animation: wssOffline 1.4s ease-in-out infinite;
+}
+
+#hb-wrap.lost .hb-lbl {
+  color: var(--titanium-ghost);
+}
+
+/* §1.2 — Desktop · Dark · Header (Dock + Sheet) */
+#dock {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 500;
+  height: 10%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 100%;
+  box-sizing: border-box;
+  padding: 0 clamp(var(--sp-3), 5vw, var(--sp-5));
+  background: rgba(5, 5, 5, .9, 5);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-top: 1px solid var(--glass-border);
+  animation: fadeUp var(--t-inhale) var(--ease) 1.1s both;
+}
+
+.dock-l,
+.dock-r {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+}
+
+.dock-nav {
+  display: flex;
+  gap: 2px;
+}
+
+.dock-nav a {
+  padding: 6px 12px;
+  border-radius: 2px;
+  font-size: .76rem;
+  color: var(--titanium-ghost);
+  transition: color .18s var(--ease), background .18s var(--ease);
+}
+
+.dock-nav a:hover,
+.dock-nav a.active {
+  color: var(--titanium);
+  background: var(--glass-bg);
+}
+
+.dock-nav a.active {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.dock-btn {
+  width: 34px;
+  height: 34px;
+  border-radius: 3px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--glass-border);
+  background: var(--glass-bg);
+  box-shadow: var(--glass-inner-glow);
+  font-size: .88rem;
+  color: var(--titanium-ghost);
+  transition: color .18s var(--ease), border-color .18s var(--ease), transform var(--t-haptic) var(--ease);
+}
+
+.dock-btn:hover {
+  color: var(--titanium);
+  border-color: var(--glass-border-hi);
+}
+
+.dock-btn:active {
+  transform: scale(.9);
+  transition-duration: var(--t-haptic);
+}
+
+.dock-cta {
+  background: var(--blue);
+  color: #fff;
+  padding: 7px 18px;
+  border-radius: 3px;
+  font-size: .74rem;
+  font-weight: 500;
+  letter-spacing: .05em;
+  text-transform: uppercase;
+  transition: opacity .18s var(--ease), transform var(--t-haptic) var(--ease);
+}
+
+.dock-cta:hover {
+  opacity: .87;
+}
+
+.dock-cta:active {
+  transform: scale(.96);
+  transition-duration: var(--t-haptic);
+}
+
+#sheet-bg {
+  position: fixed;
+  inset: 0;
+  z-index: 700;
+  background: rgba(0, 0, 0, .6);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .3s var(--ease);
+}
+
+#sheet-bg.open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+#sheet {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 800;
+  background: var(--obsidian-3);
+  border-radius: 8px 8px 0 0;
+  border-top: 1px solid var(--glass-border);
+  padding: var(--sp-3) var(--sp-4) var(--sp-5);
+  transform: translateY(100%);
+  transition: transform .4s var(--ease);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+#sheet.open {
+  transform: translateY(0);
+}
+
+.sheet-handle {
+  width: 30px;
+  height: 3px;
+  border-radius: 2px;
+  background: var(--glass-border-hi);
+  margin: 0 auto var(--sp-4);
+}
+
+.sheet-list {
+  list-style: none;
+}
+
+.sheet-list li a {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 13px var(--sp-2);
+  font-size: .92rem;
+  color: var(--titanium-dim);
+  border-bottom: 1px solid var(--rule);
+  transition: color .15s var(--ease);
+}
+
+.sheet-list li:last-child a {
+  border-bottom: none;
+}
+
+.sheet-list li a:hover {
+  color: var(--titanium);
+}
+
+.sheet-list li a span {
+  font-family: var(--font-mono);
+  font-size: .58rem;
+  color: var(--titanium-ghost);
+}
+
+#sheet-dismiss {
+  width: 100%;
+  margin-top: var(--sp-3);
+  padding: 12px;
+  border-radius: 3px;
+  background: var(--obsidian-5);
+  border: 1px solid var(--glass-border);
+  font-size: .78rem;
+  color: var(--titanium-dim);
+  transition: color .18s var(--ease), border-color .18s var(--ease);
+}
+
+#sheet-dismiss:hover {
+  color: var(--titanium);
+  border-color: var(--glass-border-hi);
+}
+
+/* §1.3 — Desktop · Dark · Hero */
+#home {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: clamp(110px, 16vw, 170px) clamp(var(--sp-4), 7vw, 110px) clamp(var(--sp-6), 10vw, 110px);
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-ruled {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background-image: repeating-linear-gradient(0deg, transparent, transparent 59px, rgba(255, 255, 255, .018) 59px, rgba(255, 255, 255, .018) 60px);
+}
+
+.hero-accent {
+  position: absolute;
+  left: clamp(var(--sp-4), 7vw, 110px);
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: linear-gradient(to bottom, transparent 0%, rgba(0, 123, 255, .24) 35%, rgba(0, 123, 255, .24) 65%, transparent 100%);
+  z-index: 0;
+}
+
+.hero-vignette {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background: radial-gradient(ellipse at 72% 45%, rgba(0, 123, 255, .05) 0%, transparent 60%);
+}
+
+.hero-content {
+  position: relative;
+  z-index: 1;
+}
+
+.hero-eyebrow {
+  opacity: 0;
+  animation: fadeUp var(--t-inhale) var(--ease) .3s both;
+  margin-bottom: var(--sp-3);
+  display: flex;
+  align-items: center;
+  gap: var(--sp-1);
+}
+
+.hero-eyebrow::before {
+  content: '';
+  display: block;
+  width: 20px;
+  height: 1px;
+  background: var(--blue);
+}
+
+.hero-h1 {
+  opacity: 0;
+  animation: fadeUp var(--t-inhale) var(--ease) .44s both;
+  margin-bottom: var(--sp-4);
+}
+
+.hero-h1 em {
+  font-style: italic;
+  color: var(--titanium-3);
+}
+
+.hero-body {
+  opacity: 0;
+  animation: fadeUp var(--t-inhale) var(--ease) .58s both;
+  margin-bottom: var(--sp-5);
+}
+
+.hero-actions {
+  display: flex;
+  gap: var(--sp-3);
+  flex-wrap: wrap;
+  opacity: 0;
+  animation: fadeUp var(--t-inhale) var(--ease) .72s both;
+}
+
+.hero-pills {
+  display: flex;
+  gap: var(--sp-2);
+  flex-wrap: wrap;
+  margin-top: var(--sp-3);
+  opacity: 0;
+  animation: fadeUp var(--t-inhale) var(--ease) .86s both;
+}
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 12px;
+  border: 1px solid var(--glass-border);
+  border-radius: 100px;
+  font-size: .72rem;
+  color: var(--titanium-dim);
+  box-shadow: var(--glass-inner-glow);
+}
+
+.pill-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--blue);
+}
+
+.hero-stats {
+  margin-top: var(--sp-6);
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  border-top: 1px solid var(--rule);
+  padding-top: var(--sp-4);
+  opacity: 0;
+  animation: fadeUp var(--t-inhale) var(--ease) 1s both;
+}
+
+.stat+.stat {
+  border-left: 1px solid var(--rule);
+  padding-left: var(--sp-4);
+}
+
+.stat-val {
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 3vw, 2.2rem);
+  font-weight: 400;
+  letter-spacing: -.03em;
+  line-height: 1;
+  margin-bottom: var(--sp-1);
+}
+
+.stat-lbl {
+  font-size: .7rem;
+  color: var(--titanium-dim);
+}
+
+/* §1.4 — Desktop · Dark · Slider (Monocle + Simulation Engine) */
+#features {
+  background: var(--obsidian-2);
+}
+
+.slider-container {
+  position: relative;
+  border-radius: 6px;
+  overflow: hidden;
+  aspect-ratio: 16/8;
+  max-height: 500px;
+  border: 1px solid var(--glass-border);
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, .9), 0 28px 72px rgba(0, 0, 0, .55);
+  user-select: none;
+  touch-action: pan-y;
+}
+
+.s-admin {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: var(--obsidian-3);
+}
+
+.admin-grid {
+  width: 100%;
+  height: 100%;
+  padding: var(--sp-4);
+  display: grid;
+  grid-template-columns: 1.618fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: var(--sp-2);
+}
+
+.ag-cell {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: 4px;
+  padding: var(--sp-2);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  box-shadow: var(--glass-inner-glow);
+  position: relative;
+  overflow: hidden;
+}
+
+.ag-cell.span2 {
+  grid-row: span 2;
+}
+
+.ag-lbl {
+  font-family: var(--font-mono);
+  font-size: .5rem;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--titanium-ghost);
+  margin-bottom: 5px;
+}
+
+.ag-val {
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  color: var(--titanium);
+  line-height: 1;
+}
+
+.ag-val.blue {
+  color: var(--blue);
+}
+
+.ag-mini {
+  display: flex;
+  align-items: flex-end;
+  gap: 2px;
+  height: 30px;
+  margin-top: 6px;
+}
+
+.ag-bar {
+  border-radius: 1px;
+  flex: 1;
+}
+
+.ag-bar.b {
+  background: var(--blue);
+}
+
+.ag-bar.d {
+  background: rgba(0, 123, 255, .25);
+}
+
+.ag-sub {
+  font-size: .6rem;
+  color: var(--titanium-ghost);
+  margin-top: 5px;
+}
+
+.ag-sub strong {
+  color: var(--blue);
+}
+
+.ag-scan {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.ag-scan-beam {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 60px;
+  background: linear-gradient(to bottom, transparent, rgba(0, 123, 255, .04), transparent);
+  animation: scanBeam 6s linear infinite;
+}
+
+.s-client {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background: var(--obsidian-4);
+  clip-path: inset(0 50% 0 0);
+  will-change: clip-path;
+}
+
+.client-grid {
+  width: 100%;
+  height: 100%;
+  padding: var(--sp-4);
+  display: grid;
+  grid-template-columns: 1fr 1.618fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: var(--sp-2);
+}
+
+.sg-cell {
+  background: rgba(0, 123, 255, .04);
+  border: 1px solid rgba(0, 123, 255, .14);
+  border-radius: 4px;
+  padding: var(--sp-2);
+  box-shadow: var(--glass-inner-glow);
+}
+
+.sg-cell.span2 {
+  grid-row: span 2;
+}
+
+.sg-lbl {
+  font-family: var(--font-mono);
+  font-size: .5rem;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--titanium-ghost);
+  margin-bottom: 5px;
+}
+
+.sg-val {
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  color: var(--titanium);
+  line-height: 1;
+}
+
+.sg-val.blue {
+  color: var(--blue);
+}
+
+.sg-perf {
+  display: flex;
+  gap: 2px;
+  margin-top: 6px;
+  align-items: flex-end;
+  height: 34px;
+}
+
+.sg-pbar {
+  flex: 1;
+  border-radius: 1px;
+}
+
+.sg-sub {
+  font-size: .6rem;
+  color: var(--titanium-ghost);
+  margin-top: 4px;
+}
+
+.sg-sub strong {
+  color: var(--blue);
+}
+
+.sg-spark {
+  height: 28px;
+  margin-top: 6px;
+}
+
+.sg-spark svg {
+  width: 100%;
+  height: 100%;
+}
+
+.monocle-line {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 1px;
+  z-index: 10;
+  background: linear-gradient(to bottom, transparent 0%, rgba(255, 255, 255, .05) 4%, rgba(229, 229, 229, .9) 20%, rgba(229, 229, 229, 1) 50%, rgba(229, 229, 229, .9) 80%, rgba(255, 255, 255, .05) 96%, transparent 100%);
+  cursor: ew-resize;
+}
+
+.monocle-handle {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: linear-gradient(150deg, #242426, #0c0c0d);
+  border: 1px solid rgba(229, 229, 229, .25);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, .8), inset 0 1px 0 rgba(255, 255, 255, .1), inset 0 -1px 0 rgba(0, 0, 0, .5);
+  transition: transform var(--t-haptic) var(--ease), border-color .2s var(--ease);
+}
+
+.monocle-line:hover .monocle-handle,
+.monocle-line:focus .monocle-handle {
+  transform: translate(-50%, -50%) scale(1.14);
+  border-color: rgba(0, 123, 255, .55);
+}
+
+.monocle-line:focus {
+  outline: none;
+}
+
+.monocle-handle::before {
+  content: '◂▸';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 7px;
+  color: rgba(229, 229, 229, .5);
+  letter-spacing: 1px;
+}
+
+.side-tag {
+  position: absolute;
+  top: var(--sp-2);
+  z-index: 5;
+  font-family: var(--font-mono);
+  font-size: .52rem;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  padding: 3px 8px;
+  border-radius: 2px;
+  pointer-events: none;
+}
+
+.tag-admin {
+  left: var(--sp-2);
+  color: var(--titanium-ghost);
+  background: rgba(5, 5, 5, .65);
+  transition: color .15s var(--ease), border-color .15s var(--ease), background .15s var(--ease);
+  border: 1px solid transparent;
+}
+
+.tag-client {
+  right: var(--sp-2);
+  color: var(--titanium-ghost);
+  background: rgba(5, 5, 5, .65);
+  transition: color .15s var(--ease), border-color .15s var(--ease), background .15s var(--ease);
+  border: 1px solid transparent;
+}
+
+.tag-active {
+  color: var(--blue) !important;
+  background: rgba(0, 123, 255, .12) !important;
+  border-color: rgba(0, 123, 255, .25) !important;
+}
+
+.slider-caption {
+  position: relative;
+  margin-top: var(--sp-3);
+  min-height: 80px;
+}
+
+.cap-box {
+  position: absolute;
+  left: 0;
+  right: 0;
+  padding: var(--sp-3) var(--sp-4);
+  border-radius: 4px;
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity .25s var(--ease), transform .25s var(--ease);
+  pointer-events: none;
+}
+
+.cap-box.cap-visible {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.cap-box.admin {
+  border: 1px solid var(--rule);
+}
+
+.cap-box.client {
+  border: 1px solid rgba(0, 123, 255, .18);
+  background: rgba(0, 123, 255, .04);
+}
+
+.cap-box h4 {
+  font-size: .82rem;
+  font-weight: 600;
+  margin-bottom: var(--sp-1);
+}
+
+.cap-box.admin h4 {
+  color: var(--titanium-dim);
+}
+
+.cap-box.client h4 {
+  color: var(--blue);
+}
+
+.cap-box p {
+  font-size: .78rem;
+  color: var(--titanium-ghost);
+  line-height: 1.65;
+}
+
+.perf-index {
+  font-family: var(--font-display);
+  font-size: 1.6rem;
+  color: var(--blue);
+  line-height: 1;
+  animation: perfPulse 10s ease-in-out infinite;
+  display: inline-block;
+}
+
+.perf-row {
+  display: flex;
+  align-items: baseline;
+  gap: var(--sp-1);
+}
+
+.growth-arrow {
+  font-size: 1rem;
+  display: inline-block;
+  transition: transform 0.8s var(--ease), color 0.8s var(--ease);
+}
+
+.growth-arrow.up {
+  transform: rotate(0deg);
+  color: rgba(52, 199, 89, 0.9);
+}
+
+.growth-arrow.down {
+  transform: rotate(180deg);
+  color: rgba(255, 59, 48, 0.9);
+}
+
+.subject-bars {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin-top: 6px;
+}
+
+.sub-bar-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.sub-bar-name {
+  font-family: var(--font-mono);
+  font-size: .5rem;
+  color: var(--titanium-ghost);
+  width: 52px;
+  flex-shrink: 0;
+}
+
+.sub-bar-track {
+  flex: 1;
+  height: 5px;
+  background: rgba(255, 255, 255, .06);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.sub-bar-fill {
+  height: 100%;
+  border-radius: 3px;
+  background: var(--blue);
+  transition: width 1.5s var(--ease);
+  animation: dividendTick 10s ease-in-out infinite;
+}
+
+.sub-bar-pct {
+  font-family: var(--font-mono);
+  font-size: .5rem;
+  color: var(--blue);
+}
+
+.perf-trend {
+  font-size: .6rem;
+  color: var(--titanium-ghost);
+  margin-top: 3px;
+}
+
+/* §1.5 — Desktop · Dark · Funnel */
+#enrollment {
+  background: var(--obsidian);
+}
+
+.funnel {
+  display: flex;
+  gap: 0;
+  margin-top: var(--sp-5);
+  position: relative;
+}
+
+.funnel::before {
+  content: '';
+  position: absolute;
+  top: 21px;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: var(--rule);
+}
+
+.funnel-step {
+  flex: 1;
+  padding: var(--sp-5) var(--sp-3) var(--sp-3);
+  position: relative;
+}
+
+.step-num {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-display);
+  font-size: 1rem;
+  background: var(--obsidian-3);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--glass-inner-glow);
+  margin-bottom: var(--sp-3);
+  position: relative;
+  z-index: 1;
+}
+
+.step-num.active {
+  background: var(--blue-dim);
+  border-color: rgba(0, 123, 255, .4);
+  color: var(--blue);
+}
+
+.step-title {
+  font-weight: 600;
+  font-size: .85rem;
+  margin-bottom: var(--sp-1);
+  color: var(--titanium);
+}
+
+.step-sub {
+  font-size: .75rem;
+  color: var(--titanium-ghost);
+  line-height: 1.6;
+}
+
+.step-owner {
+  display: inline-block;
+  margin-top: var(--sp-1);
+  font-family: var(--font-mono);
+  font-size: .58rem;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--blue);
+  padding: 2px 8px;
+  background: var(--blue-dim);
+  border-radius: 100px;
+}
+
+/* §1.6 — Desktop · Dark · Clients Carousel */
+#clients {
+  background: var(--obsidian-2);
+}
+
+.client-strip {
+  display: flex;
+  gap: var(--sp-3);
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  padding-bottom: var(--sp-2);
+  cursor: grab;
+}
+
+.client-strip:active {
+  cursor: grabbing;
+}
+
+.client-strip::-webkit-scrollbar {
+  display: none;
+}
+
+.cl-card {
+  flex: 0 0 clamp(260px, 68vw, 420px);
+  scroll-snap-align: start;
+  border: 1px solid var(--glass-border);
+  border-radius: 6px;
+  overflow: hidden;
+  background: var(--obsidian-3);
+  box-shadow: var(--glass-inner-glow);
+  transition: border-color 0.25s var(--ease), transform var(--t-haptic) var(--ease);
+}
+
+.cl-card:hover {
+  border-color: var(--glass-border-hi);
+}
+
+.cl-card:active {
+  transform: scale(0.99);
+  transition-duration: var(--t-haptic);
+}
+
+.cl-screen {
+  aspect-ratio: 16/9;
+  padding: var(--sp-3);
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-1);
+  position: relative;
+  overflow: hidden;
+}
+
+.cl-topbar {
+  height: 18px;
+  border-radius: 2px;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.cl-row {
+  display: flex;
+  gap: 6px;
+  flex: 1;
+}
+
+.cl-block {
+  border-radius: 3px;
+  flex: 1;
+}
+
+.cl-footer {
+  padding: var(--sp-2) var(--sp-3);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid var(--rule);
+}
+
+.cl-name {
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: var(--titanium);
+}
+
+.cl-sector {
+  font-family: var(--font-mono);
+  font-size: 0.58rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--titanium-ghost);
+}
+
+.cc-edu {
+  background: linear-gradient(160deg, #080c18, #0d1230);
+}
+
+.cc-hlth {
+  background: linear-gradient(160deg, #080d0c, #081812);
+}
+
+.cc-fin {
+  background: linear-gradient(160deg, #0c0c08, #181408);
+}
+
+.cc-gov {
+  background: linear-gradient(160deg, #0c0810, #140d1c);
+}
+
+.cc-edu .cl-block:nth-child(1) {
+  background: rgba(0, 123, 255, 0.45);
+}
+
+.cc-edu .cl-block:nth-child(2) {
+  background: rgba(0, 123, 255, 0.20);
+}
+
+.cc-edu .cl-block:nth-child(3) {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.cc-hlth .cl-block:nth-child(1) {
+  background: rgba(52, 199, 89, 0.45);
+}
+
+.cc-hlth .cl-block:nth-child(2) {
+  background: rgba(52, 199, 89, 0.20);
+}
+
+.cc-hlth .cl-block:nth-child(3) {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.cc-fin .cl-block:nth-child(1) {
+  background: rgba(255, 204, 0, 0.45);
+}
+
+.cc-fin .cl-block:nth-child(2) {
+  background: rgba(255, 204, 0, 0.20);
+}
+
+.cc-fin .cl-block:nth-child(3) {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.cc-gov .cl-block:nth-child(1) {
+  background: rgba(175, 82, 222, 0.45);
+}
+
+.cc-gov .cl-block:nth-child(2) {
+  background: rgba(175, 82, 222, 0.20);
+}
+
+.cc-gov .cl-block:nth-child(3) {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+
+/* §1.6b — Sector Morphing Engine ────────────────────────────────────── */
+.cl-card.sector-selected {
+  border-color: var(--sector-active);
+  box-shadow: var(--glass-inner-glow), 0 0 0 1px var(--sector-active), 0 12px 40px rgba(0, 0, 0, .55);
+}
+
+.cl-card.sector-dimmed {
+  opacity: .38;
+  transform: scale(.97);
+  transition: opacity .55s var(--ease), transform .55s var(--ease), border-color .3s var(--ease);
+}
+
+#sector-bleed {
+  position: fixed;
+  inset: 0;
+  z-index: 8800;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity .65s var(--ease);
+  background: radial-gradient(ellipse 140% 90% at var(--bleed-x, 50%) var(--bleed-y, 35%), rgba(var(--bleed-rgb, 0, 123, 255), .09) 0%, rgba(var(--bleed-rgb, 0, 123, 255), .03) 45%, transparent 100%);
+}
+
+#sector-bleed.bleed-active {
+  opacity: 1;
+}
+
+.cl-card.sector-selected .cl-sector {
+  color: var(--sector-active);
+  transition: color .35s var(--ease);
+}
+
+[data-sector-reactive] {
+  color: var(--sector-active);
+  transition: color .55s var(--ease);
+}
+
+[data-sector-reactive-border] {
+  border-color: var(--sector-active);
+  transition: border-color .55s var(--ease);
+}
+
+
+
+/* §1.7 — Desktop · Dark · Manager (Management Avenues) */
+#management {
+  background: var(--obsidian-2);
+}
+
+.avenues-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: var(--sp-3);
+  margin-top: var(--sp-5);
+}
+
+.avenue-card {
+  padding: var(--sp-4);
+  border: 1px solid var(--glass-border);
+  border-radius: 6px;
+  background: var(--obsidian-3);
+  box-shadow: var(--glass-inner-glow);
+  transition: border-color .2s var(--ease), transform var(--t-haptic) var(--ease);
+  position: relative;
+  overflow: hidden;
+}
+
+.avenue-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(to right, transparent, rgba(0, 123, 255, .2), transparent);
+}
+
+.avenue-card:hover {
+  border-color: var(--glass-border-hi);
+  transform: translateY(-2px);
+}
+
+.avenue-card:active {
+  transform: scale(.99);
+  transition-duration: var(--t-haptic);
+}
+
+.avenue-icon {
+  font-size: 1.4rem;
+  margin-bottom: var(--sp-3);
+}
+
+.avenue-card h4 {
+  font-size: .9rem;
+  font-weight: 700;
+  color: var(--titanium);
+  margin-bottom: var(--sp-1);
+}
+
+.avenue-card p {
+  font-size: .78rem;
+  color: var(--titanium-ghost);
+  line-height: 1.65;
+}
+
+.avenue-badge {
+  margin-top: var(--sp-2);
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: .56rem;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--blue);
+  background: var(--blue-dim);
+  padding: 2px 8px;
+  border-radius: 100px;
+}
+
+/* §1.8 — Desktop · Dark · Analytics */
+#analytics {
+  background: var(--obsidian);
+}
+
+.dot-plot-wrap {
+  background: var(--obsidian-2);
+  border: 1px solid var(--glass-border);
+  border-radius: 6px;
+  padding: var(--sp-4) var(--sp-4) var(--sp-5);
+  margin-top: var(--sp-4);
+}
+
+#dot-canvas {
+  width: 100%;
+  display: block;
+  border-radius: 4px;
+}
+
+.dp-btn {
+  margin-top: var(--sp-3);
+}
+
+#waffle-container {
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+  gap: 3px;
+  margin-top: var(--sp-3);
+}
+
+.waffle-sq {
+  aspect-ratio: 1;
+  border-radius: 2px;
+  animation: waffleReveal .3s var(--ease) both;
+}
+
+.waffle-reclaimed {
+  background: var(--blue);
+}
+
+.waffle-baseline {
+  background: var(--obsidian-5);
+  border: 1px solid var(--glass-border);
+}
+
+#treemap-svg {
+  width: 100%;
+  height: 200px;
+  display: block;
+  margin-top: var(--sp-3);
+}
+
+.candle-area {
+  height: 140px;
+  display: flex;
+  align-items: flex-end;
+  gap: 12px;
+  position: relative;
+  padding-bottom: 24px;
+  margin-top: var(--sp-3);
+}
+
+.candle-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+  position: relative;
+}
+
+.c-wick {
+  width: 1px;
+  background: rgba(229, 229, 229, .18);
+  transform-origin: bottom;
+  animation: riseBar .5s var(--ease) both;
+  animation-play-state: paused;
+}
+
+.c-body {
+  width: 12px;
+  border-radius: 1px;
+  transform-origin: bottom;
+  animation: riseBar .5s var(--ease) both;
+  animation-play-state: paused;
+}
+
+.c-lbl {
+  position: absolute;
+  bottom: -20px;
+  font-family: var(--font-mono);
+  font-size: .5rem;
+  color: var(--titanium-ghost);
+  letter-spacing: .08em;
+  white-space: nowrap;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.stress-mark {
+  position: absolute;
+  left: 0;
+  right: 0;
+  border-top: 1px dashed rgba(255, 159, 10, .4);
+  pointer-events: none;
+}
+
+.stress-tag {
+  position: absolute;
+  right: 0;
+  font-family: var(--font-mono);
+  font-size: .5rem;
+  color: rgba(255, 159, 10, .65);
+  transform: translateY(-100%);
+}
+
+.dist-grid {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+  margin-top: var(--sp-3);
+}
+
+.dist-row {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+}
+
+.dist-lbl {
+  font-family: var(--font-mono);
+  font-size: .58rem;
+  color: var(--titanium-ghost);
+  width: 80px;
+  flex-shrink: 0;
+}
+
+.dist-bars {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.dist-bar-wrap {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-1);
+}
+
+.dist-bar {
+  height: 7px;
+  border-radius: 1px;
+  transform-origin: left;
+  animation: riseBarX .7s var(--ease) both;
+}
+
+.dist-before {
+  background: rgba(255, 59, 48, .55);
+}
+
+.dist-after {
+  background: var(--blue);
+  opacity: .75;
+}
+
+.dist-goal {
+  background: rgba(255, 159, 10, .18);
+  border: 1px dashed rgba(255, 159, 10, .35);
+}
+
+.dist-val {
+  font-family: var(--font-mono);
+  font-size: .54rem;
+  color: var(--titanium-ghost);
+}
+
+.toggle-group {
+  display: flex;
+  gap: var(--sp-1);
+}
+
+.toggle-btn {
+  padding: 5px 14px;
+  border-radius: 2px;
+  font-family: var(--font-mono);
+  font-size: .6rem;
+  letter-spacing: .1em;
+  border: 1px solid var(--glass-border);
+  color: var(--titanium-ghost);
+  transition: color .15s var(--ease), background .15s var(--ease), border-color .15s var(--ease);
+}
+
+.toggle-btn.active {
+  background: var(--blue-dim);
+  border-color: rgba(0, 123, 255, .35);
+  color: var(--blue);
+}
+
+svg.traj {
+  width: 100%;
+  overflow: visible;
+}
+
+.traj-line {
+  fill: none;
+  stroke: var(--blue);
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 1400;
+  stroke-dashoffset: 1400;
+  transition: stroke-dashoffset 2.2s var(--ease);
+}
+
+.traj-line.drawn {
+  stroke-dashoffset: 0;
+}
+
+.traj-area {
+  opacity: 0;
+  transition: opacity 1.4s var(--ease) .4s;
+}
+
+.traj-area.drawn {
+  opacity: 1;
+}
+
+.goal-dash {
+  stroke: rgba(255, 159, 10, .35);
+  stroke-width: 1;
+  stroke-dasharray: 5, 4;
+}
+
+.axis-text {
+  font-family: var(--font-mono);
+  font-size: 8px;
+  fill: var(--titanium-ghost);
+}
+
+.axis-line {
+  stroke: var(--rule);
+  stroke-width: 1;
+}
+
+
+
+
+
+
+/* §1.9 — Desktop · Dark · Pricing */
+#pricing {
+  background: var(--obsidian-2);
+  display: flex;
+  justify-content: center;
+}
+
+.calc-card {
+  background: var(--obsidian-3);
+  border: 1px solid var(--glass-border);
+  border-radius: 6px;
+  padding: var(--sp-5) var(--sp-6);
+  box-shadow: var(--glass-inner-glow);
+  max-width: 620px;
+}
+
+.calc-row {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  margin-bottom: var(--sp-4);
+  flex-wrap: wrap;
+}
+
+.calc-lbl {
+  font-size: .85rem;
+  color: var(--titanium-dim);
+  width: 65px;
+}
+
+.calc-input {
+  flex: 1;
+  min-width: 110px;
+  padding: 10px 12px;
+  background: var(--obsidian-5);
+  border: 1px solid var(--glass-border);
+  border-radius: 3px;
+  color: var(--titanium);
+  font-family: var(--font-mono);
+  font-size: .9rem;
+  transition: border-color .2s var(--ease);
+}
+
+.calc-input:focus {
+  outline: none;
+  border-color: rgba(0, 123, 255, .45);
+}
+
+.calc-slider {
+  width: 100%;
+  -webkit-appearance: none;
+  height: 2px;
+  background: var(--glass-border);
+  border-radius: 1px;
+  outline: none;
+  margin-top: var(--sp-2);
+}
+
+.calc-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--blue);
+  cursor: pointer;
+  box-shadow: 0 0 8px var(--blue-glow);
+}
+
+.calc-result {
+  margin-top: var(--sp-4);
+  padding: clamp(16px, 4vw, 24px);
+  background: var(--obsidian-5);
+  border: 1px solid var(--glass-border);
+  border-radius: clamp(4px, 2vw, 10px);
+}
+
+.calc-result-val {
+  font-family: var(--font-display);
+  font-size: clamp(1.8rem, 4vw, 2.8rem);
+  color: var(--blue);
+  letter-spacing: -.03em;
+  margin-bottom: var(--sp-1);
+}
+
+.calc-result-breakdown {
+  font-size: .72rem;
+  color: var(--titanium-ghost);
+  line-height: 1.8;
+}
+
+.calc-scaling-msg {
+  margin-top: var(--sp-2);
+  font-family: var(--font-mono);
+  font-size: .6rem;
+  letter-spacing: .1em;
+  color: var(--blue);
+  opacity: 0;
+  transition: opacity .4s var(--ease);
+}
+
+.calc-scaling-msg.visible {
+  opacity: 1;
+}
+.calc-btn {
+  padding: 8%;
+  font-weight: 600;
+}
+
+@media(max-width:384px) {
+  #pricing {
+    background: var(--obsidian-2);
+  }
+  .calc-result-val {
+    font-size: 0.9rem;
+    text-align: center;
+    font-weight: 900;
+  }
+  .calc-btn {
+    padding: 14px 16px;
+    font-weight: 600;
+  }
+  
+}
+
+/* §1.10 — Desktop · Dark · Security */
+#security {
+  background: var(--obsidian);
+}
+
+.sec-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: var(--sp-5);
+}
+
+.sec-table th,
+.sec-table td {
+  padding: 13px var(--sp-4);
+  text-align: left;
+  border-bottom: 1px solid var(--rule);
+  font-size: .78rem;
+}
+
+.sec-table th {
+  font-family: var(--font-mono);
+  font-size: .56rem;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--titanium-ghost);
+  font-weight: 400;
+  background: var(--obsidian-2);
+}
+
+.sec-table td {
+  color: var(--titanium-dim);
+}
+
+.sec-table td:first-child {
+  color: var(--titanium);
+  font-weight: 500;
+}
+
+.live-dot {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.ldot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.ldot.live {
+  background: var(--blue);
+  box-shadow: 0 0 5px var(--blue-glow);
+}
+
+.ldot.ok {
+  background: rgba(52, 199, 89, .85);
+}
+
+/* §1.11 — Desktop · Dark · Founders (Manifesto) */
+#founders {
+  background: var(--obsidian-2);
+}
+
+.manifesto {
+  max-width: 66ch;
+  margin-bottom: var(--sp-7);
+}
+
+.m-line {
+  font-family: var(--font-display);
+  font-size: clamp(1.15rem, 2.4vw, 1.55rem);
+  font-weight: 400;
+  line-height: 1.68;
+  color: var(--titanium-ghost);
+  margin-bottom: var(--sp-4);
+  transition: color .6s var(--ease);
+}
+
+.m-line.lit {
+  color: var(--titanium);
+}
+
+.mark {
+  color: var(--titanium-ghost);
+  transition: color .6s var(--ease), border-color .6s var(--ease);
+  border-bottom: 1px solid transparent;
+}
+
+.m-line.lit .mark {
+  color: var(--blue);
+  border-bottom-color: rgba(0, 123, 255, .28);
+}
+
+.m-line.lit .mark.dim {
+  color: var(--titanium-dim);
+  border-bottom-color: rgba(229, 229, 229, .18);
+}
+
+.founders-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--sp-3);
+}
+
+.f-card {
+  padding: var(--sp-4);
+  border: 1px solid var(--glass-border);
+  border-radius: 6px;
+  background: var(--obsidian-3);
+  box-shadow: var(--glass-inner-glow);
+  transition: border-color .2s var(--ease), transform var(--t-haptic) var(--ease);
+}
+
+.f-card:hover {
+  border-color: var(--glass-border-hi);
+  transform: translateY(-2px);
+}
+
+.f-init {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-display);
+  font-size: .85rem;
+  background: var(--obsidian-5);
+  border: 1px solid var(--glass-border);
+  color: var(--titanium-dim);
+  margin-bottom: var(--sp-3);
+}
+
+.f-name {
+  font-size: .85rem;
+  font-weight: 600;
+  color: var(--titanium);
+  margin-bottom: 3px;
+}
+
+.f-role {
+  font-family: var(--font-mono);
+  font-size: .56rem;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--blue);
+  margin-bottom: var(--sp-3);
+}
+
+.f-quote {
+  font-size: .78rem;
+  color: var(--titanium-ghost);
+  line-height: 1.72;
+  font-style: italic;
+}
+
+.f-quote::before {
+  content: '— ';
+  color: var(--titanium-ghost);
+}
+
+/* §1.12 — Desktop · Dark · Footer */
+footer {
+  background: var(--obsidian-2);
+  border-top: 1px solid var(--rule);
+  padding: clamp(var(--sp-5), 8vw, 89px) clamp(var(--sp-4), 7vw, 110px);
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: 1.8fr repeat(3, 1fr);
+  gap: var(--sp-6);
+  margin-bottom: var(--sp-6);
+}
+
+.footer-brand {
+  font-family: var(--font-display);
+  font-size: 1rem;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--titanium);
+  margin-bottom: var(--sp-2);
+}
+
+.footer-tagline {
+  font-size: .78rem;
+  color: var(--titanium-ghost);
+  line-height: 1.65;
+  max-width: 26ch;
+}
+
+.fc-h {
+  font-family: var(--font-mono);
+  font-size: .56rem;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--titanium-ghost);
+  margin-bottom: var(--sp-3);
+}
+
+.fc-ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+}
+
+.fc-ul li a {
+  font-size: .78rem;
+  color: var(--titanium-ghost);
+  transition: color .18s var(--ease);
+}
+
+.fc-ul li a:hover {
+  color: var(--titanium);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.trust-strip {
+  display: flex;
+  gap: var(--sp-2);
+  flex-wrap: wrap;
+  align-items: center;
+  padding-top: var(--sp-4);
+  margin-top: var(--sp-4);
+  border-top: 1px solid var(--rule);
+  margin-bottom: var(--sp-4);
+}
+
+.t-badge {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 11px;
+  border-radius: 2px;
+  border: 1px solid var(--rule);
+  font-family: var(--font-mono);
+  font-size: .54rem;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--titanium-ghost);
+  box-shadow: var(--glass-inner-glow);
+}
+
+.t-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+}
+
+.footer-bottom {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--sp-2);
+}
+
+.footer-bottom p,
+.footer-bottom a {
+  font-size: .7rem;
+  color: var(--titanium-ghost);
+}
+
+.footer-bottom a:hover {
+  color: var(--titanium);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+
+/* ════════════════════════════════════════════════════════════════════════════
+   §2  DESKTOP · LIGHT THEME   (V=Desktop, T=Light)
+       Scope:  .theme-light selector — colour overrides only.
+       WHY:    Only rules that produce a visible difference on Titanium
+               ground are listed. All geometry is inherited from §1.
+   ════════════════════════════════════════════════════════════════════════════ */
+
+/* §2.1 — Desktop · Light · Token Overrides */
+.theme-light {
+  --obsidian: #F0F0F2;
+  --obsidian-2: #E5E5E7;
+  --obsidian-3: #D8D8DA;
+  --obsidian-4: #C8C8CA;
+  --obsidian-5: #AEAEB2;
+  --titanium: #050505;
+  --titanium-2: #1c1c1e;
+  --titanium-3: #3a3a3c;
+  --titanium-dim: #636366;
+  --titanium-ghost: #8E8E93;
+  --rule: rgba(0, 0, 0, 0.07);
+  --glass-bg: rgba(0, 0, 0, 0.03);
+  --glass-border: rgba(0, 0, 0, 0.09);
+  --glass-border-hi: rgba(0, 0, 0, 0.18);
+  --glass-inner-glow: inset 0 0 0 0.5px rgba(0, 0, 0, 0.09);
+}
+
+/* §2.2 — Desktop · Light · Header */
+.theme-light #dock {
+  background: rgba(229, 229, 229, .92);
+}
+
+/* §2.3 — Desktop · Light · Slider
+   WHY: Monocle handle uses hardcoded dark greys that are illegible on
+        Titanium background. Tag backgrounds also need lighter surfaces. */
+.theme-light .monocle-handle {
+  background: linear-gradient(150deg, #C8C8CA, #E5E5E7);
+  border-color: rgba(0, 0, 0, 0.2);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.6), inset 0 -1px 0 rgba(0, 0, 0, 0.1);
+}
+
+.theme-light .tag-admin,
+.theme-light .tag-client {
+  background: rgba(229, 229, 229, 0.85);
+}
+
+/* §2.4–§2.12 — Desktop · Light · Hero → Footer
+   WHY: All remaining components inherit correct Titanium-ground colours
+        through the cascade from .theme-light token overrides above.
+        No further overrides are required — the token architecture is complete. */
+
+
+/* ════════════════════════════════════════════════════════════════════════════
+   §3  MOBILE · DARK THEME   (V=Mobile, T=Dark)
+       Scope:  @media(max-width:N) — layout geometry overrides only.
+       WHY:    Mobile rules change column counts, flex-direction, and
+               padding. Colour and typography cascade from §1 unchanged.
+               Ordering follows the §1 component sequence (C-axis).
+   ════════════════════════════════════════════════════════════════════════════ */
+
+/* §3.2 — Mobile · Dark · Header */
+@media(max-width:828px) {
+
+  /* WHY: Dock nav links collapse to the hamburger sheet on narrow screens.
+          Displaying them would overflow or force unreadable wrapping.       */
+  .dock-nav {
+    display: none;
+  }
+}
+
+/* §3.3 — Mobile · Dark · Hero */
+@media(max-width:600px) {
+
+  /* WHY: 4-column stat strip overflows below 600px — collapse to 2 columns.
+          Odd children shed left-border to avoid a double-border artefact.  */
+  .hero-stats {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--sp-4) 0;
+  }
+
+  .stat:nth-child(odd) {
+    border-left: none;
+  }
+
+  .stat:nth-child(even) {
+    border-left: 1px solid var(--rule);
+    padding-left: var(--sp-3);
+  }
+}
+
+/* §3.5 — Mobile · Dark · Funnel */
+@media(max-width:640px) {
+
+  /* WHY: Horizontal funnel cannot maintain readable step widths below
+          640px. Vertical stack is readable; connecting rule is removed
+          because it only makes sense in horizontal context.                 */
+  .funnel {
+    flex-direction: column;
+  }
+
+  .funnel::before {
+    display: none;
+  }
+}
+
+/* §3.11 — Mobile · Dark · Founders */
+@media(max-width:700px) {
+
+  /* WHY: 3-column founder grid compresses below minimum readable card
+          width at 700px. Single column preserves hierarchy.                 */
+  .founders-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* §3.12 — Mobile · Dark · Footer */
+@media(max-width:720px) {
+
+  /* WHY: 4-column footer overflows below 720px without text truncation.
+          2-column distributes link groups into two readable rows.           */
+  .footer-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: var(--sp-4);
+  }
+}
+
+
+/* ════════════════════════════════════════════════════════════════════════════
+   §4  MOBILE · LIGHT THEME   (V=Mobile, T=Light)
+       Scope:  Intersection of @media(max-width:N) + .theme-light.
+       WHY:    §4 is intentionally minimal. The cascade resolves §2 (colour)
+               and §3 (geometry) simultaneously on mobile+light without
+               additional rules in most cases. Rules appear here only when
+               the intersection produces a visual artefact that neither
+               parent subset corrects alone.
+   ════════════════════════════════════════════════════════════════════════════ */
+
+/* §4.2 — Mobile · Light · Header
+   WHY: The standard rgba(0,0,0,.6) scrim reads as insufficient contrast
+        against the Titanium background on small screens. Increase to .72
+        to maintain WCAG 3:1 minimum for the modal boundary perception.     */
+@media(max-width:560px) {
+  .theme-light #sheet-bg {
+    background: rgba(0, 0, 0, 0.72);
+  }
+}
+
+
+/* §4.12 — Mobile · Light · Footer
+   WHY: Trust-strip badge borders (--rule = rgba(0,0,0,0.07) on light)
+        become near-invisible on the Titanium footer surface at mobile
+        widths where badges wrap. Stronger border restores boundary clarity. */
+@media(max-width:720px) {
+  .theme-light .t-badge {
+    border-color: rgba(0, 0, 0, 0.14);
+  }
+}
+    
+  </style>
+  <!-- Anti-FOUC: apply saved theme class synchronously before first paint -->
+  <script>
+    try {
+      if (localStorage.getItem('inst-theme') === 'light') {
+        document.documentElement.classList.add('theme-light');
+      }
+    } catch {}
+  </script>
+</head>
+<body>
+
+  <!-- WCAG 2.4.1: Skip navigation -->
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+
+  <!-- ARIA live region for dynamic announcements -->
+  <div id="sr-live" role="status" aria-live="polite" aria-atomic="true"
+       style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)"></div>
+
+  <!-- Effect layers -->
+  <div id="bloom-layer"    aria-hidden="true"></div>
+  <div id="luminous-layer" aria-hidden="true"></div>
+  <div id="sector-bleed" aria-hidden="true"></div>
+
+  <!-- ── Logo ── -->
+  <div id="logo" role="banner">
+    <svg id="logo-mark" viewBox="0 0 34 34" aria-hidden="true" focusable="false">
+      <defs>
+        <linearGradient id="lg" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%"   stop-color="#555"/>
+          <stop offset="100%" stop-color="#999"/>
+        </linearGradient>
+      </defs>
+      <polygon points="17,1.5 30.5,8.5 30.5,25.5 17,32.5 3.5,25.5 3.5,8.5" fill="none" stroke="url(#lg)" stroke-width="1"/>
+      <polygon points="17,5 27,10.5 27,23.5 17,29 7,23.5 7,10.5" fill="rgba(255,255,255,.02)" stroke="rgba(255,255,255,.07)" stroke-width=".5"/>
+      <text x="17" y="21.5" text-anchor="middle" fill="rgba(229,229,229,.9)" font-size="10" letter-spacing=".04em" font-family="serif">I</text>
+    </svg>
+    <div>
+      <div id="logo-name">Institutify</div>
+      <span id="logo-tier" aria-label="Edition: Black Label, Version 2026.1">Smart Management System (CMS & ERP)</span>
+    </div>
+  </div>
+
+  <!-- ── WSS Heartbeat ── -->
+  <div id="hb-wrap" role="status" aria-label="Live data connection: active">
+    <div class="hb-dot" aria-hidden="true"></div>
+    <div class="hb-dot" aria-hidden="true"></div>
+    <div class="hb-dot" aria-hidden="true"></div>
+    <span class="hb-lbl" id="hb-lbl">Live</span>
+  </div>
+
+  <!-- ── Dock ── -->
+  <nav id="dock" role="toolbar" aria-label="Main navigation">
+    <div class="dock-l">
+      <button class="dock-btn" id="burger-btn"
+              aria-label="Open navigation menu" aria-expanded="false" aria-controls="sheet">
+        <svg width="14" height="10" viewBox="0 0 14 10" fill="none" aria-hidden="true">
+          <rect width="14" height="1.5" rx=".75" fill="currentColor"/>
+          <rect y="4.25" width="10" height="1.5" rx=".75" fill="currentColor"/>
+          <rect y="8.5"  width="6"  height="1.5" rx=".75" fill="currentColor"/>
+        </svg>
+      </button>
+      <!-- Nav links injected by renderNavigation() -->
+      <nav class="dock-nav" id="dock-nav" aria-label="Section navigation"></nav>
+    </div>
+    <div class="dock-r">
+      <button class="dock-btn" id="theme-btn" aria-label="Toggle Obsidian / Titanium theme" title="Toggle theme">
+        <svg width="13" height="13" viewBox="0 0 13 13" fill="none" aria-hidden="true">
+          <circle cx="6.5" cy="6.5" r="3" stroke="currentColor" stroke-width="1.2"/>
+          <line x1="6.5" y1="0" x2="6.5" y2="2" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+          <line x1="6.5" y1="11" x2="6.5" y2="13" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+          <line x1="0" y1="6.5" x2="2" y2="6.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+          <line x1="11" y1="6.5" x2="13" y2="6.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+        </svg>
+      </button>
+      <button class="dock-btn" id="audio-btn"
+              aria-label="Audio feedback disabled — click to enable"
+              aria-pressed="false" title="Toggle audio feedback">🔇</button>
+      <a href="#pricing" class="dock-cta"><b>Book Free Demo</b></a>
+    </div>
+  </nav>
+
+  <!-- ── Bottom Sheet ── -->
+  <div id="sheet-bg" aria-hidden="true" role="presentation"></div>
+  <div id="sheet" role="dialog" aria-modal="true" aria-label="Navigation menu" hidden>
+    <div class="sheet-handle" aria-hidden="true"></div>
+    <!-- Sheet links injected by renderNavigation() -->
+    <ul class="sheet-list" id="sheet-list"></ul>
+    <button id="sheet-dismiss">Dismiss</button>
+  </div>
+
+  <!-- ══════════════════════════════════════════════ MAIN ══ -->
+  <main id="main-content">
+
+    <!-- ── HERO ── -->
+    <section id="home" class="section-pad" style="padding-top: 3%;" aria-label="Hero — Platform Introduction">
+      <div class="hero-ruled"    aria-hidden="true"></div>
+      <div class="hero-accent"   aria-hidden="true"></div>
+      <div class="hero-vignette" aria-hidden="true"></div>
+      <div class="hero-content">
+        <p class="t-label hero-eyebrow" id="hero-eyebrow"></p>
+        <h1 class="t-display hero-h1"  id="hero-h1"></h1>
+        <p class="t-body hero-body"     id="hero-body"></p>
+        <div class="hero-actions">
+          <a href="#features"  class="btn-primary" id="hero-cta" aria-label="View the Institutify platform">View Platform</a>
+          <a href="#enrollment" class="btn-ghost"                aria-label="Learn how enrollment works">How Enrollment Works</a>
+        </div>
+        <div class="hero-pills" id="hero-pills" aria-label="Core value propositions"></div>
+        <div class="hero-stats" id="hero-stats" aria-label="Platform metrics"></div>
+      </div>
+    </section>
+    <!-- ══ MODULE: SECTOR_DEPLOYMENT_CAROUSEL — START ══ -->
+    <section id="clients" class="section-pad" aria-label="Sector Deployment Carousel — select institutional sector">
+      <div class="container">
+        <div class="sec-header reveal">
+          <p class="t-label">Sector Deployment</p>
+          <h2 class="t-h2">Select your sector.<br>The system adapts.</h2>
+          <p class="t-body" style="margin-top:var(--sp-2)">
+            Institutify operates across four institutional sectors through one architectural standard.
+            Select a sector — the interface pivots to reflect its operational context.
+            The security baseline, data sovereignty posture, and performance guarantees
+            are non-negotiable across every deployment.
+          </p>
+        </div>
+        <div class="client-strip reveal d1"
+             role="region" aria-label="Client gallery — scroll or drag to browse"
+             id="carousel">
+          <div class="cl-card sector-selected" data-sector="edu" data-sector-rgb="0,123,255"
+               role="button" tabindex="0" aria-pressed="true"
+               aria-label="Education sector — Meridian University">
+            <div class="cl-screen cc-edu" aria-hidden="true">
+              <div class="cl-topbar"></div>
+              <div class="cl-row"><div class="cl-block"></div><div class="cl-block"></div><div class="cl-block"></div></div>
+              <div class="cl-row"><div class="cl-block" style="flex:2"></div><div class="cl-block"></div></div>
+            </div>
+            <div class="cl-footer">
+              <span class="cl-name">Meridian University</span>
+              <span class="cl-sector">Education</span>
+            </div>
+          </div>
+
+          <div class="cl-card" data-sector="hlth" data-sector-rgb="29,184,126"
+               role="button" tabindex="0" aria-pressed="false"
+               aria-label="Healthcare sector — Apex Health Systems">
+            <div class="cl-screen cc-hlth" aria-hidden="true">
+              <div class="cl-topbar"></div>
+              <div class="cl-row"><div class="cl-block"></div><div class="cl-block"></div><div class="cl-block"></div></div>
+              <div class="cl-row"><div class="cl-block"></div><div class="cl-block" style="flex:2"></div></div>
+            </div>
+            <div class="cl-footer">
+              <span class="cl-name">Apex Health Systems</span>
+              <span class="cl-sector">Healthcare</span>
+            </div>
+          </div>
+
+          <div class="cl-card" data-sector="fin" data-sector-rgb="201,150,58"
+               role="button" tabindex="0" aria-pressed="false"
+               aria-label="Finance sector — GreenBank Financial">
+            <div class="cl-screen cc-fin" aria-hidden="true">
+              <div class="cl-topbar"></div>
+              <div class="cl-row"><div class="cl-block"></div><div class="cl-block"></div><div class="cl-block"></div></div>
+              <div class="cl-row"><div class="cl-block" style="flex:3"></div></div>
+            </div>
+            <div class="cl-footer">
+              <span class="cl-name">GreenBank Financial</span>
+              <span class="cl-sector">Finance</span>
+            </div>
+          </div>
+
+          <div class="cl-card" data-sector="gov" data-sector-rgb="175,82,222"
+               role="button" tabindex="0" aria-pressed="false"
+               aria-label="Government sector — Centrica Municipality">
+            <div class="cl-screen cc-gov" aria-hidden="true">
+              <div class="cl-topbar"></div>
+              <div class="cl-row"><div class="cl-block"></div><div class="cl-block"></div><div class="cl-block"></div></div>
+              <div class="cl-row"><div class="cl-block"></div><div class="cl-block"></div></div>
+            </div>
+            <div class="cl-footer">
+              <span class="cl-name">Centrica Municipality</span>
+              <span class="cl-sector">Government</span>
+            </div>
+          </div>
+
+                </div>
+      </div>
+    </section>
+    <!-- ══ MODULE: SECTOR_DEPLOYMENT_CAROUSEL — END   ══ -->
+
+    <!-- ── NARRATIVE SLIDER ── -->
+    <section id="features" class="section-pad" aria-label="Platform views: Admin versus client / staff">
+      <div class="container">
+        <div class="sec-header reveal">
+          <p class="t-label">Narrative Interface</p>
+          <h2 class="t-h2">Drag to shift perspective.</h2>
+          <p class="t-body" style="margin-top:var(--sp-2)">
+            Side A shows your institution's health at a glance.
+            Side B shows what your client or staff member sees — their personal growth, curriculum, and account.
+            Same infrastructure. Completely different lens.
+          </p>
+        </div>
+        <div class="slider-container reveal d1" id="cmp-slider"
+             role="group" aria-label="View comparison: Admin overview versus client individual view">
+          <!-- Admin Side -->
+          <div class="s-admin" aria-label="Admin view: institution-wide metrics">
+            <div class="admin-grid" aria-hidden="true">
+              <div class="ag-cell span2">
+                <div class="ag-lbl">Fees Collected · This Month</div>
+                <div class="ag-val blue">₹4,82,000</div>
+                <div class="ag-mini">
+                  <div class="ag-bar b" style="height:65%"></div><div class="ag-bar b" style="height:80%"></div>
+                  <div class="ag-bar d" style="height:55%"></div><div class="ag-bar b" style="height:92%"></div>
+                  <div class="ag-bar d" style="height:70%"></div><div class="ag-bar b" style="height:88%"></div>
+                  <div class="ag-bar d" style="height:60%"></div><div class="ag-bar b" style="height:75%"></div>
+                </div>
+                <div class="ag-sub"><strong>↑ 8.4%</strong> vs last month</div>
+                <div class="ag-scan"><div class="ag-scan-beam"></div></div>
+              </div>
+              <div class="ag-cell"><div class="ag-lbl">staff Active</div><div class="ag-val">24</div><div class="ag-sub">of 26 total</div></div>
+              <div class="ag-cell"><div class="ag-lbl">Inventory Alerts</div><div class="ag-val" style="color:rgba(255,159,10,.85)">3</div><div class="ag-sub">Low stock items</div></div>
+              <div class="ag-cell"><div class="ag-lbl">Enrollment Pending</div><div class="ag-val blue">12</div><div class="ag-sub">Await audit</div></div>
+              <div class="ag-cell"><div class="ag-lbl">Attendance Today</div><div class="ag-val">91.4%</div><div class="ag-sub"><strong style="color:var(--blue)">↑ 2.1%</strong> vs avg</div></div>
+            </div>
+          </div>
+          <!-- client Side — Simulation Engine (v2026.5) -->
+          <div class="s-client" id="s-client" aria-label="client view: individual metrics — live simulation">
+            <div class="client-grid" aria-hidden="true">
+              <div class="sg-cell">
+                <div class="sg-lbl">Performance Index</div>
+                <div class="perf-row">
+                  <div class="perf-index" id="perf-index">87.3</div>
+                  <div class="growth-arrow up" id="growth-arrow" aria-hidden="true">▲</div>
+                </div>
+                <div class="perf-trend" id="perf-trend">↑ Improving trajectory</div>
+              </div>
+              <div class="sg-cell span2">
+                <div class="sg-lbl">Curriculum Progress · Dividend Logic Active</div>
+                <div class="sg-val" style="font-size:.95rem">Term 3 · 4 Subjects</div>
+                <div class="subject-bars" id="subject-bars">
+                  <!-- Injected by initSimulationEngine() -->
+                </div>
+              </div>
+              <div class="sg-cell"><div class="sg-lbl">Account Status</div><div class="sg-val" style="color:rgba(52,199,89,.9);font-size:.9rem">CLEAR</div><div class="sg-sub">Fees paid · Current</div></div>
+              <div class="sg-cell"><div class="sg-lbl">Attendance</div><div class="sg-val">94.2%</div><div class="sg-sub">This term</div></div>
+              <div class="sg-cell"><div class="sg-lbl">Growth Rank</div><div class="sg-val blue">Top 18%</div><div class="sg-sub">Relative to cohort</div></div>
+            </div>
+          </div>
+          <!-- Monocle divider -->
+          <div class="monocle-line" id="monocle-divider"
+               role="slider" aria-label="View selector" tabindex="0"
+               aria-valuenow="50" aria-valuemin="2" aria-valuemax="98">
+            <div class="monocle-handle" aria-hidden="true"></div>
+          </div>
+          <span class="side-tag tag-admin"   aria-hidden="true">Admin View</span>
+          <span class="side-tag tag-client" aria-hidden="true">client View</span>
+        </div>
+
+        <div class="slider-caption reveal d2">
+          <div class="cap-box admin">
+            <h4>Admin / Institution</h4>
+            <p>Fees, inventory alerts, staff headcount, pending enrollments, and attendance — all at a glance. No inter-departmental queries. No spreadsheets.</p>
+          </div>
+          <div class="cap-box client">
+            <h4>client / staff Individual</h4>
+            <p>Personalised performance index, curriculum progress, relative cohort ranking, account status, and growth trajectory — owned by the individual, managed by the institution.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── ENROLLMENT FUNNEL ── -->
+    <section id="enrollment" class="section-pad" aria-label="5-step enrollment process">
+      <div class="container">
+        <div class="sec-header reveal">
+          <p class="t-label">Distributed Workload</p>
+          <h2 class="t-h2">Five steps. Zero admin burden.</h2>
+          <p class="t-body" style="margin-top:var(--sp-2)">Parents, clients, and staff handle data entry directly. Administrators perform a single audit click — not a data-entry marathon.</p>
+        </div>
+        <!-- Steps injected by renderEnrollmentFunnel() -->
+        <div class="funnel" id="enrollment-funnel" role="list" aria-label="5-step enrollment funnel"></div>
+      </div>
+    </section>
+
+
+    <!-- ── MANAGEMENT AVENUES ── -->
+    <section id="management" class="section-pad" aria-label="Management avenues — separation of concerns">
+      <div class="container">
+        <div class="sec-header reveal">
+          <p class="t-label">Separation of Concerns</p>
+          <h2 class="t-h2">Every department.<br>Its own avenue.</h2>
+          <p class="t-body" style="margin-top:var(--sp-2)">Role-based access means each team sees exactly what they need — nothing more. Insider risk is an architecture problem, and we solved it structurally.</p>
+        </div>
+        <!-- Cards injected by renderManagementAvenues() -->
+        <div class="avenues-grid" id="avenues-grid"></div>
+      </div>
+    </section>
+
+    <!-- ── ANALYTICS ── -->
+    <section id="analytics" class="section-pad" aria-label="Visual analytics and insights">
+      <div class="container">
+        <div class="sec-header reveal">
+          <p class="t-label">Insight · Not Data</p>
+          <h2 class="t-h2">The numbers know<br>where you are falling short.</h2>
+          <p class="t-body" style="margin-top:var(--sp-2)">Every visualisation follows a strict data-to-ink ratio. 3–4 critical KPIs per role — not an exhaustive data dump. Hover the dot plot to feel the friction.</p>
+        </div>
+
+        <!-- Bimodal Dot Plot (GPU Canvas) -->
+        <div class="reveal">
+          <h3 class="t-h3" style="margin-bottom:var(--sp-2)">Resource-Density: Legacy vs. Institutify</h3>
+          <p class="t-body" style="margin-bottom:var(--sp-3)">The scattered cloud is your competitors — fragmented vendors, disseminated budgets, administrative friction. The anchor is Institutify: consolidated, still, precise. <em>Hover to feel the friction. Click Compare to see the gravity effect.</em></p>
+          <div class="dot-plot-wrap">
+            <canvas id="dot-canvas" aria-label="Bimodal dot plot: scattered legacy ERP costs versus the Institutify anchor" role="img"></canvas>
+          </div>
+          <div class="dp-btn">
+            <button class="btn-primary" id="gravity-btn" aria-label="Animate gravity effect: consolidate legacy costs toward Institutify anchor">
+              Compare — See the Gravity Effect
+            </button>
+          </div>
+        </div>
+
+        <!-- Waffle Chart -->
+        <div style="margin-top:var(--sp-7)" class="reveal d1">
+          <h3 class="t-h3" style="margin-bottom:var(--sp-1)">Administrative Time Reclaimed</h3>
+          <p class="t-body" style="margin-bottom:var(--sp-2)">Each square = 1% of administrative hours. Blue squares are reclaimed by Institutify.</p>
+          <div id="waffle-container"
+               aria-label="Waffle chart: 67% of administrative time reclaimed"></div>
+          <p style="font-family:var(--font-mono);font-size:.62rem;color:var(--blue);margin-top:var(--sp-2)">67% of admin hours reclaimed — returned to instruction and oversight.</p>
+        </div>
+
+        <!-- SVG Treemap -->
+        <div style="margin-top:var(--sp-7)" class="reveal d2">
+          <h3 class="t-h3" style="margin-bottom:var(--sp-1)">Administrative Burden Distribution (Before)</h3>
+          <p class="t-body" style="margin-bottom:var(--sp-2)">Each column's area represents hours per week per task category. Treemap encoding makes size comparison pre-attentive — no legend required.</p>
+          <svg id="treemap-svg" aria-label="Treemap: administrative time distribution before Institutify" role="img"></svg>
+        </div>
+
+        <!-- Candlestick Stress Test -->
+        <div style="margin-top:var(--sp-7)">
+          <div class="reveal">
+            <h3 class="t-h3" style="margin-bottom:var(--sp-1)">Capacity vs. Enrollment — The Stress Test</h3>
+            <p class="t-body" style="margin-bottom:var(--sp-2)">Wick = physical capacity. Body = actual enrollment. Amber dashed line = stress threshold (80%). Red body = overextended.</p>
+            <div style="display:flex;gap:var(--sp-4);flex-wrap:wrap;margin-bottom:var(--sp-2)" aria-label="Legend">
+              <span style="font-family:var(--font-mono);font-size:.62rem;color:var(--titanium-ghost);display:flex;align-items:center;gap:5px"><span style="width:10px;height:10px;background:rgba(52,199,89,.7);display:inline-block;border-radius:1px"></span>Healthy (&lt;80%)</span>
+              <span style="font-family:var(--font-mono);font-size:.62rem;color:var(--titanium-ghost);display:flex;align-items:center;gap:5px"><span style="width:10px;height:10px;background:rgba(255,159,10,.7);display:inline-block;border-radius:1px"></span>Stress (80–92%)</span>
+              <span style="font-family:var(--font-mono);font-size:.62rem;color:var(--titanium-ghost);display:flex;align-items:center;gap:5px"><span style="width:10px;height:10px;background:rgba(255,59,48,.7);display:inline-block;border-radius:1px"></span>Overextended (&gt;92%)</span>
+            </div>
+          </div>
+          <div class="candle-area reveal d1" id="candle-area"
+               aria-label="Candlestick chart: six campuses enrollment versus capacity">
+            <div class="stress-mark" style="bottom:60%" aria-hidden="true">
+              <span class="stress-tag">80% · Stress Zone</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Admin Time Distribution -->
+        <div style="margin-top:var(--sp-7)">
+          <div class="reveal">
+            <h3 class="t-h3" style="margin-bottom:var(--sp-1)">Administrative Time Distribution</h3>
+            <p class="t-body" style="margin-bottom:var(--sp-2)">Before Institutify (red) · After (blue) · Goal (dashed amber). Hours per week per task. Toggle between median and mean views.</p>
+            <div style="display:flex;align-items:center;gap:var(--sp-3);margin-bottom:var(--sp-2);flex-wrap:wrap">
+              <div class="toggle-group" role="group" aria-label="Distribution view toggle">
+                <button class="toggle-btn active" data-view="median" aria-pressed="true">Median</button>
+                <button class="toggle-btn"         data-view="mean"   aria-pressed="false">Mean</button>
+              </div>
+            </div>
+          </div>
+          <div class="dist-grid reveal d1" id="dist-grid"
+               aria-label="Bar chart: admin time before and after Institutify"></div>
+        </div>
+
+        <!-- Growth Trajectory -->
+        <div style="margin-top:var(--sp-7)">
+          <div class="reveal">
+            <h3 class="t-h3" style="margin-bottom:var(--sp-1)">Growth Trajectory — Institutions Served</h3>
+            <p class="t-body" style="margin-bottom:var(--sp-2)">Actual (blue) vs. conservative target (amber dashed). The trajectory surpasses the target at Q1 2024.</p>
+          </div>
+          <div style="background:var(--obsidian-2);border:1px solid var(--glass-border);border-radius:6px;padding:var(--sp-4) var(--sp-5)" class="reveal d1" id="traj-card">
+            <svg class="traj" viewBox="0 0 640 160"
+                 aria-label="Line chart: institution adoption 2022–2025, surpasses target at Q1 2024" role="img">
+              <defs>
+                <linearGradient id="tg" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%"   stop-color="rgba(0,123,255,.18)"/>
+                  <stop offset="100%" stop-color="rgba(0,123,255,0)"/>
+                </linearGradient>
+              </defs>
+              <line class="axis-line" x1="30" y1="10" x2="30"  y2="145"/>
+              <line class="axis-line" x1="30" y1="145" x2="620" y2="145"/>
+              <text class="axis-text" x="24" y="148" text-anchor="end">0</text>
+              <text class="axis-text" x="24" y="108" text-anchor="end">2</text>
+              <text class="axis-text" x="24" y="68"  text-anchor="end">3</text>
+              <text class="axis-text" x="24" y="28"  text-anchor="end">4</text>
+              <line class="goal-dash" x1="30" y1="60" x2="620" y2="35"/>
+              <text class="axis-text" x="622" y="38" fill="rgba(255,159,10,.55)">Target</text>
+              <path class="traj-area" id="traj-area"
+                d="M30,142 L130,138 L230,130 L330,118 L430,88 L530,48 L620,28 L620,145 L30,145 Z"
+                fill="url(#tg)"/>
+              <path class="traj-line" id="traj-line"
+                d="M30,142 L130,138 L230,130 L330,118 L430,88 L530,48 L620,28"/>
+              <circle cx="30"  cy="142" r="3" fill="var(--blue)"/>
+              <circle cx="130" cy="138" r="3" fill="var(--blue)"/>
+              <circle cx="230" cy="130" r="3" fill="var(--blue)"/>
+              <circle cx="330" cy="118" r="3" fill="var(--blue)"/>
+              <circle cx="430" cy="88"  r="3" fill="var(--blue)"/>
+              <circle cx="530" cy="48"  r="3" fill="var(--blue)"/>
+              <circle cx="620" cy="28"  r="3" fill="var(--blue)"/>
+              <text class="axis-text" x="30"  y="158">Q1'22</text>
+              <text class="axis-text" x="130" y="158">Q3'22</text>
+              <text class="axis-text" x="230" y="158">Q1'23</text>
+              <text class="axis-text" x="330" y="158">Q3'23</text>
+              <text class="axis-text" x="430" y="158">Q1'24</text>
+              <text class="axis-text" x="530" y="158">Q3'24</text>
+              <text class="axis-text" x="620" y="158">Q3'25</text>
+            </svg>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ── PRICING CALCULATOR ── -->
+    <section id="pricing" class="section-pad" aria-label="ROI calculator and pricing">
+      <div class="container">
+        <div class="sec-header reveal">
+          <p class="t-label">Financial Transparency</p>
+          <h2 class="t-h2">Kickstart Your Infrastructure<br>With no hidden cost.</h2>
+          <p class="t-body" style="margin-top:var(--sp-2)">↑ Scaling Efficiently — cost increases with your volume.</p> 
+            <p>₹1,000 System Premium · ₹6 per profile · ₹3k–5k one-time</p>
+        </div>
+        <div class="calc-card reveal">
+          <div class="calc-row">
+            <label class="calc-lbl" for="clients-input">Client</label>
+            <input class="calc-input" type="number" id="clients-input" value="200" min="0" max="10000" step="10" aria-label="Number of clients" autocomplete="off">
+          </div>
+          <input class="calc-slider" type="range" id="clients-slider" min="0" max="20000" value="200" step="10" aria-label="clients slider">
+          <div class="calc-row" style="margin-top:var(--sp-4)">
+            <label class="calc-lbl" for="staff-input">Staff</label>
+            <input class="calc-input" type="number" id="staff-input" value="20" min="0" max="2000" step="5" aria-label="Number of Staff" autocomplete="off">
+          </div>
+          <input class="calc-slider" type="range" id="staff-slider" min="0" max="500" value="20" step="5" aria-label="staff slider">
+          <div class="calc-result" aria-live="polite" aria-label="Calculated monthly cost">
+            <div class="calc-result-val" id="calc-total">₹2,320 / monthly</div>
+          </div>
+          <div style="display: flex;justify-content: center; margin-top:var(--sp-4)">
+            <button class="btn-primary calc-btn" id="calc-cta" aria-label="Calculate ROI and request access">Calculate Premium</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── SECURITY TABLE ── -->
+    <section id="security" class="section-pad" aria-label="Security and compliance">
+      <div class="container">
+        <div class="sec-header reveal">
+          <p class="t-label">Vault Standards</p>
+          <h2 class="t-h2">Mathematically audited.<br>Not just claimed.</h2>
+          <p class="t-body" style="margin-top:var(--sp-2)">DPDP 2023 and GDPR compliance means your institution's data is legally sovereign. OWASP ASVS Level 3 means it is technically impenetrable.</p>
+        </div>
+        <!-- Table injected by renderSecurityTable() -->
+        <div id="security-table-wrap" class="reveal d1"></div>
+      </div>
+    </section>
+
+    <!-- ── FOUNDERS / MANIFESTO ── -->
+    <section id="founders" class="section-pad" aria-label="Founding team and philosophy">
+      <div class="container">
+        <p class="t-label reveal">The Architects</p>
+        <div class="manifesto">
+          <p class="m-line reveal" data-lit>We watched institutions spend millions on <span class="mark dim">legacy infrastructure</span> built before the modern web existed. Every workaround was a new <span class="mark dim">attack surface</span>. Every patch delayed the reckoning.</p>
+          <p class="m-line reveal d1" data-lit>Institutify is the thesis that <span class="mark">workload distribution</span>, <span class="mark">security</span>, and <span class="mark">scalability</span> are not competing tensions. They are the same decision, made once, at the foundation.</p>
+          <p class="m-line reveal d2" data-lit>We do not aim for modern. We aim for <span class="mark">timeless</span> — infrastructure as solid and reliable as the <span class="mark">institutions</span> that depend on it.</p>
+        </div>
+        <!-- Founder cards injected by renderFounders() -->
+        <div class="founders-grid" id="founders-grid"></div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ── FOOTER ── -->
+  <footer>
+    <div class="container">
+      <!-- Footer grid injected by renderFooter() -->
+      <div id="footer-inner"></div>
+    </div>
+  </footer>
+<script>
+/* ════════════════════════════════════════════════════════════════════
+       MODULE: Application Bootstrap (ES Module entry point)
+       WHY:    type="module" enables native browser ES module support,
+               allowing static import/export without a bundler.
+               In Phase 6 production, this entry point will be the
+               only script tag — all modules will be bundled by esbuild.
+  ════════════════════════════════════════════════════════════════════ */
+// ═══════════════════════════════════════════════════════════════════
+// BUNDLED BUILD — Institutify v2026.5 (Multi-File → Single Distribution)
+// WHY: The multi-file source (index.html + modules/*.js + data/*.json +
+//      styles/tokens.css) is the authoring format. This bundled build
+//      is the distribution format — identical behaviour, zero server
+//      required. Production: replace with esbuild output + CDN fetch
+//      for data/platform.json from the real API endpoint.
+// ═══════════════════════════════════════════════════════════════════
+'use strict';
+
+// ── MODULE: DATA (inlined for static distribution) ──────────────
+const PLATFORM_DATA = { "_meta": { "version": "1.9", "classification": "Institutional Grade", "lastUpdated": "2026-04-05" }, "institution": { "name": "Institutify", "edition": "Smart Management System (CMS & ERP)", "tagline": "Frictionless administration. For the institutions that cannot afford less.", "provenInstitutions": 4, "apiLatencyMs": 78, "uptimeSla": "99.98%", "compliance": ["SOC 2 Type II", "DPDP 2023", "GDPR", "OWASP ASVS L3"] }, "hero": { "eyebrow": "Institutional Nervous System · Version 1.9", "headline": ["Frictionless", "administration.", "For the institutions", "that cannot afford less."], "body": "Institutify is proven across 4 institutions. We do not claim scale — we claim stability, workload distribution, and technical resource pooling that eliminates administrative friction at the root.", "pills": [{ "label": "Distributed Data Entry", "detail": "Parents & clients handle entry, admins audit" }, { "label": "One-Click Audit", "detail": "Single-click accept or reject after review" }, { "label": "Resource Pooling", "detail": "Consolidated infrastructure, single vendor" }, { "label": "Separation of Concerns", "detail": "Role-scoped access, zero cross-department data leakage" }], "stats": [{ "value": "4", "label": "Institutions · Live & proven" }, { "value": "<78ms", "label": "Median API latency" }, { "value": "99.98%", "label": "Uptime SLA" }, { "value": "SOC 2", "label": "Type II + DPDP 2023" }] }, "adminMetrics": { "feesCollected": { "value": "₹4,82,000", "label": "Fees Collected · This Month", "trend": "+8.4%", "trendDir": "up" }, "staffActive": { "value": "24", "label": "staff Active", "sub": "of 26 total" }, "inventoryAlerts": { "value": "3", "label": "Inventory Alerts", "sub": "Low stock items", "severity": "warning" }, "enrollmentPending": { "value": "12", "label": "Enrollment Pending", "sub": "Await audit" }, "attendanceToday": { "value": "91.4%", "label": "Attendance Today", "trend": "+2.1%", "trendDir": "up" } }, "clientMetrics": { "performanceIndex": { "value": "87.3", "label": "Performance Index", "trend": "Trajectory ↑" }, "curriculum": { "value": "Mathematics · Unit 6 of 8", "label": "Curriculum Progress · Term 3", "subjects": "Sciences 78% · English 91%" }, "accountStatus": { "value": "CLEAR", "label": "Account Status", "sub": "Fees paid · Current" }, "attendance": { "value": "94.2%", "label": "Attendance", "sub": "This term" }, "growthRank": { "value": "Top 18%", "label": "Growth Rank", "sub": "Relative to cohort" } }, "enrollmentSteps": [{ "step": 1, "title": "Profile Creation", "sub": "Parent or client submits personal and academic details via a guided form. No office visit required.", "owner": "Parent / client", "active": false }, { "step": 2, "title": "Document Upload", "sub": "Required documents uploaded directly. Automated format and completeness validation runs instantly.", "owner": "Parent / client", "active": false }, { "step": 3, "title": "staff Verification", "sub": "Subject teachers confirm academic prerequisites and course compatibility. No admin intermediary.", "owner": "staff", "active": true }, { "step": 4, "title": "Fee Assignment", "sub": "Fee schedule auto-populates based on grade and selected courses. Payment gateway is pre-integrated.", "owner": "System Auto", "active": false }, { "step": 5, "title": "One-Click Audit", "sub": "Administrator cross-references the compiled record and accepts or rejects. The system handles all downstream notifications.", "owner": "Admin", "active": true }], "managementAvenues": [{ "icon": "👥", "title": "client & staff Management", "body": "Role-based permissions, attendance tracking, and ERP access scoped to individual records. Zero cross-departmental leakage.", "badge": "RBAC" }, { "icon": "📦", "title": "Inventory Management", "body": "Real-time tracking of school assets, equipment, and consumables. Low-stock alerts surface only to inventory managers.", "badge": "Auto-Alert" }, { "icon": "💳", "title": "Financial Management", "body": "Fee schedules, payment status, and outstanding dues — visible to finance only. Eliminates the inter-departmental fee chase.", "badge": "Separation" }, { "icon": "📚", "title": "Curriculum Management", "body": "Course assignment, prerequisite mapping, and syllabus tracking — owned by academic staff, not administrators.", "badge": "staff-Owned" }, { "icon": "📋", "title": "Documentation & Distribution", "body": "Automated generation and secure distribution of reports, certificates, and notices. Zero manual email chains.", "badge": "Auto-Dist" }, { "icon": "🛡️", "title": "IT Support & Access Control", "body": "Robust IT support pooled with Institutify infrastructure. Security patches, uptime monitoring, and access audit logs included.", "badge": "Pooled" }], "campusStressData": [{ "id": "A", "label": "Campus A", "enrollmentPct": 68 }, { "id": "B", "label": "Campus B", "enrollmentPct": 85 }, { "id": "C", "label": "Campus C", "enrollmentPct": 97 }, { "id": "D", "label": "Campus D", "enrollmentPct": 72 }, { "id": "E", "label": "Campus E", "enrollmentPct": 89 }, { "id": "F", "label": "Post-Inst", "enrollmentPct": 55, "postInstitutify": true }], "adminTimeData": [{ "task": "Scheduling", "beforeHrs": 82, "afterHrs": 22, "goalHrs": 15 }, { "task": "Reporting", "beforeHrs": 74, "afterHrs": 16, "goalHrs": 12 }, { "task": "Compliance", "beforeHrs": 68, "afterHrs": 28, "goalHrs": 20 }, { "task": "Comms", "beforeHrs": 55, "afterHrs": 18, "goalHrs": 10 }, { "task": "Procurement", "beforeHrs": 60, "afterHrs": 25, "goalHrs": 18 }], "growthTrajectory": [{ "quarter": "Q1'22", "actual": 1, "target": 1 }, { "quarter": "Q3'22", "actual": 1, "target": 2 }, { "quarter": "Q1'23", "actual": 2, "target": 2 }, { "quarter": "Q3'23", "actual": 2, "target": 3 }, { "quarter": "Q1'24", "actual": 3, "target": 3 }, { "quarter": "Q3'24", "actual": 4, "target": 3 }, { "quarter": "Q3'25", "actual": 4, "target": 4 }], "waffleData": { "title": "Administrative Time Reclaimed", "description": "Each square = 1% of administrative hours. Blue = reclaimed by Institutify.", "reclaimedPct": 67 }, "pricing": { "systemsPremiumINR": 1000, "perProfileINR": 6, "onboardingMinINR": 3000, "onboardingMaxINR": 5000, "scalingThreshold": 100 }, "security": [{ "control": "Data Sovereignty", "standard": "DPDP Act 2023 (India) · GDPR (EU)", "status": "Compliant", "statusType": "ok", "scope": "All PII · Right to Erasure" }, { "control": "Content Security Policy", "standard": "strict-dynamic + nonce", "status": "Enforced", "statusType": "live", "scope": "All surfaces" }, { "control": "Trusted Types API", "standard": "No innerHTML · No eval", "status": "Enforced", "statusType": "live", "scope": "All DOM mutations" }, { "control": "OWASP ASVS", "standard": "Level 3 — Advanced · SSRF defense", "status": "Verified", "statusType": "ok", "scope": "Full application" }, { "control": "Encryption at Rest", "standard": "AES-256-GCM · Per-institution salt", "status": "Active", "statusType": "live", "scope": "All PII fields" }, { "control": "Transport Security", "standard": "TLS 1.3 Strict · Sub-20ms handshake", "status": "Active", "statusType": "live", "scope": "All connections" }, { "control": "WebSocket Security", "standard": "WSS · Auth handshake · Heartbeat", "status": "Socket-Ready", "statusType": "live", "scope": "Live data pipeline" }, { "control": "Access Controls", "standard": "RBAC · Short-lived tokens · MFA", "status": "Enforced", "statusType": "live", "scope": "All sessions" }, { "control": "SOC 2 Type II", "standard": "Availability · Processing Integrity", "status": "Certified", "statusType": "ok", "scope": "All infrastructure" }], "trustBadges": [{ "label": "AES-256-GCM", "color": "#007BFF" }, { "label": "SOC 2 · Type II", "color": "#007BFF" }, { "label": "ISO 27001", "color": "#FF9F0A" }, { "label": "OWASP ASVS L3", "color": "#34C759" }, { "label": "GDPR", "color": "#007BFF" }, { "label": "DPDP 2023", "color": "#FF9F0A" }, { "label": "HIPAA", "color": "#34C759" }], "founders": [{ "initials": "SA", "name": "Sara Almeida", "role": "CEO · Co-Founder", "quote": "Institutions deserve infrastructure as sophisticated as their missions." }, { "initials": "JK", "name": "James Kato", "role": "CTO · Co-Founder", "quote": "Security is not a feature. It is the architecture. Built in from zero." }, { "initials": "ML", "name": "Maya Liu", "role": "CPO · Co-Founder", "quote": "If any user cannot operate it intuitively on day one, we have not finished." }], "navigation": { "dock": [{ "href": "#home", "label": "Home" }, { "href": "#features", "label": "Platform" }, { "href": "#enrollment", "label": "Enroll" }, { "href": "#clients", "label": "Clients" }, { "href": "#management", "label": "Manage" }, { "href": "#analytics", "label": "Insights" }, { "href": "#pricing", "label": "Pricing" }], "sheet": [{ "href": "#home", "label": "Home" }, { "href": "#features", "label": "Platform" }, { "href": "#enrollment", "label": "Enrollment" }, { "href": "#clients", "label": "Clients" }, { "href": "#management", "label": "Management" }, { "href": "#analytics", "label": "Analytics" }, { "href": "#pricing", "label": "Pricing" }, { "href": "#security", "label": "Security" }, { "href": "#founders", "label": "Team" }] } };
+
+
+// ── MODULE: CORE ─────────────────────────────────────────────────
+/* ═══════════════════════════════════════════════════════════════════════════
+   MODULE: modules/core.js
+   SCOPE:  Application bootstrap, data loading, heuristic prefetching,
+           theme management, WSS heartbeat, audio engine, bloom effect,
+           luminous pulse, sheet navigation
+   WHY:    Separating bootstrap concerns from rendering logic means this
+           file can be swapped for a real API client in Phase 3 without
+           touching any UI module. The data-fetching contract is the same
+           whether the source is a local JSON file or a REST endpoint.
+   ════════════════════════════════════════════════════════════════════════ */
+
+'use strict';
+
+/* ── Module-level state ─────────────────────────────────────────────────
+   WHY: Module-scoped variables prevent global namespace pollution.
+        When the SFA transitions to a real backend, these become the
+        client-side cache layer rather than the source of truth.         */
+let platformData = null;
+let activeRequest = null;   /* [FIX 1] Singleton Promise — guards the fetch window */
+let audioCtx = null;
+let audioEnabled = false;
+let hoverPrefetchTimer = null;
+
+/* ── user_data_sovereignty_status ──────────────────────────────────────
+   WHY: Exposed as a read-only observer via Object.freeze(). Consent and
+        connection state may be observed by any module but can only be
+        mutated through the designated controllers (initWSSHeartbeat,
+        consent handlers). This prevents third-party scripts from spoofing
+        sovereignty status.
+        DPDP 2023 / GDPR mandate: no data processing before consentGranted. */
+const user_data_sovereignty_status = Object.freeze({
+  consentGranted: false,
+  wssConnected: true,
+});
+
+/* ═══════════════════════════════════════════════════════════════════════
+   FUNCTION: loadPlatformData
+   SCOPE:    Singleton-Promise data provider — fetch and cache JSON layer
+   WHY:      [FIX 1] Singleton Promise / Request Coalescing
+             The previous guard `if (platformData) return platformData`
+             only checked for resolved data. Between the first async call
+             and resolution, a second caller sees platformData===null and
+             starts a duplicate fetch — the classic Thundering Herd window.
+             Fix: store the Promise itself in activeRequest. All concurrent
+             callers return the same in-flight promise. The finally{} block
+             resets activeRequest so future refresh attempts work correctly.
+             In this static build, PLATFORM_DATA is inlined — this path is
+             the Phase 3 hook for the real API endpoint.
+   ════════════════════════════════════════════════════════════════════ */
+async function loadPlatformData() {
+  if (platformData) return platformData;   /* Resolved cache hit        */
+  if (activeRequest) return activeRequest;  /* In-flight — join the ride */
+  activeRequest = (async () => {
+    try {
+      const res = await fetch('./data/platform.json');
+      if (!res.ok) throw new Error(`[Institutify] HTTP ${res.status}`);
+      platformData = await res.json();
+      return platformData;
+    } catch (err) {
+      console.error('[Institutify] Data load failed — falling back to embedded stub', err);
+      return null;
+    } finally {
+      activeRequest = null;   /* Reset so future refreshes can start a new fetch */
+    }
+  })();
+  return activeRequest;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   FUNCTION: initiateHeuristicPrefetch
+   SCOPE:    Predict user intent from hover dwell time and scroll velocity
+             to pre-load the next section's heavy assets before they need them
+   WHY:      Heuristic prefetching eliminates the "blank frame" between
+             sections during scroll — achieving the "Zero-Latency feel"
+             required by Version 2026.1. A 100ms hover dwell threshold
+             avoids unnecessary fetches for accidental hover passes.
+   ════════════════════════════════════════════════════════════════════ */
+function initiateHeuristicPrefetch(targetModuleId) {
+  /* Clear any in-flight prefetch timer — prevents race conditions
+     when user moves between nav links quickly                     */
+  clearTimeout(hoverPrefetchTimer);
+  hoverPrefetchTimer = setTimeout(() => {
+    const link = document.querySelector(`link[data-prefetch="${targetModuleId}"]`);
+    if (link) return; /* Already prefetched */
+    const hint = document.createElement('link');
+    hint.rel = 'prefetch';
+    hint.href = `./modules/${targetModuleId}.js`;
+    hint.setAttribute('data-prefetch', targetModuleId);
+    document.head.appendChild(hint);
+  }, 100); /* 100ms dwell threshold per spec */
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   FUNCTION: initScrollVelocityPrefetcher
+   SCOPE:    Monitor scroll velocity to pre-load upcoming section modules
+   WHY:      High scroll velocity means the user will reach the next
+             section in < 500ms. Pre-loading at this point gives the
+             module enough time to parse before the section is visible.
+   ════════════════════════════════════════════════════════════════════ */
+function initScrollVelocityPrefetcher(sectionOrder) {
+  let lastScrollY = window.scrollY;
+  let lastScrollTime = Date.now();
+
+  const onScroll = () => {
+    const now = Date.now();
+    const dy = Math.abs(window.scrollY - lastScrollY);
+    const dt = now - lastScrollTime;
+    const velocity = dy / dt; /* px/ms */
+
+    /* Prefetch next section when scrolling fast (>1.5 px/ms) */
+    if (velocity > 1.5) {
+      const currentSection = resolveCurrentSection(sectionOrder);
+      const nextIdx = sectionOrder.indexOf(currentSection) + 1;
+      if (nextIdx < sectionOrder.length) {
+        initiateHeuristicPrefetch(sectionOrder[nextIdx]);
+      }
+    }
+
+    lastScrollY = window.scrollY;
+    lastScrollTime = now;
+  };
+
+  /* Use passive listener — never blocks scroll, cannot cause jank */
+  window.addEventListener('scroll', onScroll, { passive: true });
+}
+
+function resolveCurrentSection(sections) {
+  /* WHY: Find the section whose top edge is nearest the viewport midpoint.
+          This is more accurate than checking visibility alone for fast scrolls. */
+  const midY = window.scrollY + window.innerHeight * 0.5;
+  let nearest = sections[0];
+  let nearestDist = Infinity;
+  sections.forEach(id => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    const dist = Math.abs(el.getBoundingClientRect().top + window.scrollY - midY);
+    if (dist < nearestDist) { nearestDist = dist; nearest = id; }
+  });
+  return nearest;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   FUNCTION: initTheme
+   SCOPE:    Theme toggle — Obsidian ↔ Titanium
+   WHY:      Persisting to localStorage ensures returning users see their
+             preferred theme immediately on paint — before JS runs fully.
+             The HTML class is applied synchronously at the <script> tag
+             level in the shell to prevent FOUC.
+   ════════════════════════════════════════════════════════════════════ */
+function initTheme() {
+  const btn = document.getElementById('theme-btn');
+  if (!btn) return;
+
+  let isLight = false;
+  try { isLight = localStorage.getItem('inst-theme') === 'light'; } catch { }
+  if (isLight) document.body.classList.add('theme-light');
+
+  btn.addEventListener('click', () => {
+    isLight = !isLight;
+    document.body.classList.toggle('theme-light', isLight);
+    try { localStorage.setItem('inst-theme', isLight ? 'light' : 'dark'); } catch { }
+    announceToScreenReader(`Theme switched to ${isLight ? 'Titanium light' : 'Obsidian dark'} mode.`);
+  });
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   FUNCTION: initWSSHeartbeat
+   SCOPE:    Live connection indicator — functional mirror of SOC 2 Availability
+   WHY:      [FIX 4] Private Closure — spoofing prevention
+             The previous implementation wrote the handler object directly
+             onto window.InstWS, making it globally writable. Any script
+             (analytics injections, browser extensions) could call
+             window.InstWS.lost() and degrade the UI to "Offline" without
+             the actual transport dropping — a silent integrity violation.
+             Fix: internal _connected state lives inside a closure.
+             window.InstWS is sealed with Object.freeze so no external
+             code can replace its methods. A watchdog timer auto-degrades
+             to "Offline" if no heartbeat arrives within T_jittered —
+             making a sustained spoofed "Live" state structurally impossible.
+   ════════════════════════════════════════════════════════════════════ */
+function initWSSHeartbeat() {
+  const wrap = document.getElementById('hb-wrap');
+  const lbl = document.getElementById('hb-lbl');
+
+  /* ── Private closure state — unreachable from global scope ─────────── */
+  let _connected = true;
+  let _watchdogId = null;
+
+  /* T_jittered: watchdog window with ±5% jitter to prevent cliff-edge
+     degradation when thousands of sessions share the same session start. */
+  const T_BASE_MS = 35_000;                             /* 35 s heartbeat window */
+  const jitteredWindow = () => T_BASE_MS + (Math.random() * 0.1 - 0.05) * T_BASE_MS;
+
+  function _paintOffline() {
+    if (wrap) wrap.classList.add('lost');
+    if (lbl) lbl.textContent = 'Offline';
+    announceToScreenReader('Data connection lost. Operating on last known state.');
+  }
+
+  function _paintOnline() {
+    if (wrap) wrap.classList.remove('lost');
+    if (lbl) lbl.textContent = 'Live';
+    announceToScreenReader('Data connection restored.');
+  }
+
+  function _resetWatchdog() {
+    clearTimeout(_watchdogId);
+    /* Auto-degrade if no heartbeat within jittered window */
+    _watchdogId = setTimeout(() => {
+      if (_connected) { _connected = false; _paintOffline(); }
+    }, jitteredWindow());
+  }
+
+  /* Public API — frozen; external code can call these but cannot replace
+     them or add new methods to the InstWS surface.                       */
+  window.InstWS = Object.freeze({
+    /* lost(): called by the backend WSS integration when the socket drops */
+    lost() {
+      _connected = false;
+      clearTimeout(_watchdogId);
+      _paintOffline();
+    },
+    /* restore(): called by the backend WSS integration on reconnect */
+    restore() {
+      _connected = true;
+      _resetWatchdog();
+      _paintOnline();
+    },
+    /* heartbeat(): backend sends this on each keep-alive ping to reset
+       the watchdog. Without it, the watchdog auto-degrades after T_jittered. */
+    heartbeat() {
+      if (!_connected) { _connected = true; _paintOnline(); }
+      _resetWatchdog();
+    },
+    /* Read-only status getter — observing without mutation */
+    get isLive() { return _connected; },
+  });
+
+  /* Start the watchdog immediately — the backend must send its first
+     heartbeat() call within T_jittered to confirm the channel is live.  */
+  _resetWatchdog();
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   FUNCTION: initAudioEngine
+   SCOPE:    Web Audio API synthesis engine for all sensory interactions
+   WHY:      Audio is synthesised (not file-loaded) to stay well within
+             the <50KB audio budget. AudioContext is lazy-initialised on
+             first user gesture to comply with browser autoplay policy.
+             All sounds are off by default — user opts in explicitly
+             to satisfy "Accessibility First" before "Experience".
+   ════════════════════════════════════════════════════════════════════ */
+function initAudioEngine() {
+  const btn = document.getElementById('audio-btn');
+  if (!btn) return;
+
+  function getAudioCtx() {
+    if (!audioCtx) {
+      try { audioCtx = new (window.AudioContext || window.webkitAudioContext)(); } catch { }
+    }
+    return audioCtx;
+  }
+
+  /* Expose synthesis functions on a namespaced object
+     WHY: Other modules import these via window.InstAudio rather than
+          re-importing the module, keeping the module graph flat.       */
+  window.InstAudio = {
+
+    /* playChronosTick: 5ms high-frequency transient at 8kHz
+       WHY: Mimics a luxury camera shutter / Swiss watch crown click.
+            Provides instant tactile verification of an action without
+            visual clutter — the "Chronos Tick" from Phase 6/7 spec.   */
+    playChronosTick() {
+      if (!audioEnabled) return;
+      const ctx = getAudioCtx();
+      if (!ctx) return;
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.frequency.setValueAtTime(8000, ctx.currentTime);
+      osc.frequency.exponentialRampToValueAtTime(200, ctx.currentTime + 0.005);
+      gain.gain.setValueAtTime(0.08, ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 0.005);
+      osc.start(ctx.currentTime);
+      osc.stop(ctx.currentTime + 0.005);
+    },
+
+    /* playHarmonicRise: pitch-shifts upward with value increases
+       WHY: Subconscious association between "growth" and "harmony"
+            — the "Harmonic Rise" from Phase 6 spec.                   */
+    playHarmonicRise(frequency) {
+      if (!audioEnabled) return;
+      const ctx = getAudioCtx();
+      if (!ctx) return;
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(frequency, ctx.currentTime);
+      gain.gain.setValueAtTime(0.05, ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 0.15);
+      osc.start(ctx.currentTime);
+      osc.stop(ctx.currentTime + 0.15);
+    },
+
+    /* playSuccessChord: multi-tonal resonant chord on CTA completion
+       WHY: Resolves to silence, giving "Mission Accomplished" emotional
+            payoff. Major triad (root + 3rd + 5th) sounds conclusive,
+            not alarming — the "Success Bloom" chord from Phase 6 spec. */
+    playSuccessChord() {
+      if (!audioEnabled) return;
+      const ctx = getAudioCtx();
+      if (!ctx) return;
+      [261.63, 329.63, 392.00].forEach((freq) => {
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(freq, ctx.currentTime);
+        gain.gain.setValueAtTime(0.0, ctx.currentTime);
+        gain.gain.linearRampToValueAtTime(0.09, ctx.currentTime + 0.08);
+        gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 1.4);
+        osc.start(ctx.currentTime);
+        osc.stop(ctx.currentTime + 1.4);
+      });
+    },
+  };
+
+  /* Wire audio toggle */
+  btn.addEventListener('click', () => {
+    audioEnabled = !audioEnabled;
+    btn.textContent = audioEnabled ? '🔊' : '🔇';
+    btn.setAttribute('aria-label',
+      audioEnabled ? 'Audio feedback enabled — click to disable'
+        : 'Audio feedback disabled — click to enable');
+    btn.setAttribute('aria-pressed', String(audioEnabled));
+    if (audioEnabled) getAudioCtx();
+    announceToScreenReader(`Audio ${audioEnabled ? 'enabled' : 'disabled'}.`);
+  });
+
+  /* Wire Chronos Tick to all interactive elements */
+  document.addEventListener('mousedown', (e) => {
+    if (e.target.matches('button, a, [role="slider"], input[type="range"]')) {
+      window.InstAudio?.playChronosTick();
+    }
+  });
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   FUNCTION: invokeSuccessBloom
+   SCOPE:    Radial Electric Blue ripple on high-stakes CTA completion
+   WHY:      The bloom expands from the exact point of contact (coordinates
+             parameter) and dissolves back to Obsidian — the "Mission
+             Accomplished" emotional payoff from Phase 6 spec.
+             Simultaneously plays the resonant chord (if audio enabled).
+   ════════════════════════════════════════════════════════════════════ */
+function invokeSuccessBloom({ x, y }) {
+  const layer = document.getElementById('bloom-layer');
+  if (!layer) return;
+
+  const ring = document.createElement('div');
+  ring.className = 'bloom-ring';
+  ring.style.left = `${x}px`;
+  ring.style.top = `${y}px`;
+  layer.appendChild(ring);
+  setTimeout(() => ring.remove(), 1700);
+
+  window.InstAudio?.playSuccessChord();
+  announceToScreenReader('Action completed successfully.');
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   FUNCTION: initLuminousPulse
+   SCOPE:    60-minute visual reset — non-intrusive posture/focus reminder
+   WHY:      Uses setTimeout (not setInterval) to prevent timer drift
+             accumulating over long sessions. Page Visibility API check
+             prevents wasted CPU cycles while the tab is backgrounded.
+   ════════════════════════════════════════════════════════════════════ */
+/* ═══════════════════════════════════════════════════════════════════════
+   FUNCTION: initLuminousPulse
+   SCOPE:    60-minute visual reset — jitter-smoothed scheduling
+   WHY:      [FIX 3] Stochastic Jitter on the luminous pulse schedule.
+             The rigid 60-minute interval creates a "cliff-edge" where every
+             session started at the same time (e.g., 08:00 school start)
+             fires the pulse simultaneously. On a real backend this would
+             be a thundering herd. In this SPA it means every open tab
+             executes the classList animation at the same moment.
+             Jitter of ±3 minutes (5% of 3,600,000ms) spreads firing across
+             a 6-minute window — a smooth, flat distribution.
+   ════════════════════════════════════════════════════════════════════ */
+function initLuminousPulse() {
+  const layer = document.getElementById('luminous-layer');
+  if (!layer) return;
+
+  const T_BASE = 60 * 60 * 1_000;                      /* 60 minutes base */
+  const jitter = () => (Math.random() * 0.1 - 0.05) * T_BASE; /* ±3 min  */
+
+  function triggerPulse() {
+    if (document.hidden) { schedulePulse(); return; }  /* Skip hidden tabs */
+    layer.classList.add('pulsing');
+    setTimeout(() => {
+      layer.classList.remove('pulsing');
+      schedulePulse();
+    }, 10_000); /* 10-second visible pulse */
+  }
+
+  function schedulePulse() {
+    /* T_next = 60min ± jitter — no two tabs fire at the same millisecond */
+    setTimeout(triggerPulse, T_BASE + jitter());
+  }
+
+  schedulePulse();
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   FUNCTION: initBottomSheet
+   SCOPE:    Navigation bottom sheet — focus-trapped modal
+   WHY:      transform:translateY is GPU-composited, ensuring the
+             slide-up animation never triggers layout recalculation.
+             Focus trapping satisfies WCAG 2.1.2 (No Keyboard Trap —
+             trapped WITHIN the modal, not away from the page).
+   ════════════════════════════════════════════════════════════════════ */
+function initBottomSheet() {
+  const burgerBtn = document.getElementById('burger-btn');
+  const sheetEl = document.getElementById('sheet');
+  const sheetBg = document.getElementById('sheet-bg');
+  const dismissBtn = document.getElementById('sheet-dismiss');
+  const firstLink = document.getElementById('sheet-first');
+  if (!burgerBtn || !sheetEl) return;
+
+  function openSheet() {
+    sheetEl.hidden = false;
+    requestAnimationFrame(() => {
+      sheetEl.classList.add('open');
+      sheetBg?.classList.add('open');
+      sheetBg?.removeAttribute('aria-hidden');
+    });
+    burgerBtn.setAttribute('aria-expanded', 'true');
+    document.body.style.overflow = 'hidden';
+    setTimeout(() => firstLink?.focus(), 60);
+    trapFocusInsideSheet();
+  }
+
+  function closeSheet() {
+    sheetEl.classList.remove('open');
+    sheetBg?.classList.remove('open');
+    sheetBg?.setAttribute('aria-hidden', 'true');
+    burgerBtn.setAttribute('aria-expanded', 'false');
+    burgerBtn.focus();
+    document.body.style.overflow = '';
+    setTimeout(() => { sheetEl.hidden = true; }, 420);
+  }
+
+  function trapFocusInsideSheet() {
+    const focusable = [...sheetEl.querySelectorAll('a[href], button:not([disabled])')];
+    const handler = (e) => {
+      if (e.key === 'Escape') { closeSheet(); sheetEl.removeEventListener('keydown', handler); return; }
+      if (e.key !== 'Tab') return;
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+    };
+    sheetEl.addEventListener('keydown', handler);
+  }
+
+  burgerBtn.addEventListener('click', openSheet);
+  dismissBtn?.addEventListener('click', closeSheet);
+  sheetBg?.addEventListener('click', closeSheet);
+  sheetEl.querySelectorAll('a[href]').forEach(a => a.addEventListener('click', closeSheet));
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   FUNCTION: initScrollReveal
+   SCOPE:    IntersectionObserver-based reveal for all .reveal elements
+   WHY:      IntersectionObserver runs off the main thread — no scroll
+             event listener means zero risk of jank during fast scrolling.
+             After revealing, the observer is detached (unobserve) —
+             prevents accumulating inactive callbacks over time.
+   ════════════════════════════════════════════════════════════════════ */
+function initScrollReveal() {
+  const els = document.querySelectorAll('.reveal');
+  if (!window.IntersectionObserver) {
+    els.forEach(el => el.classList.add('in')); /* Graceful fallback */
+    return;
+  }
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(en => {
+      if (en.isIntersecting) { en.target.classList.add('in'); io.unobserve(en.target); }
+    });
+  }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+  els.forEach(el => io.observe(el));
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   FUNCTION: initManifestoScrollLit
+   SCOPE:    Illuminate manifesto paragraphs as they enter the reading zone
+   WHY:      rootMargin '-30% 0px -30% 0px' creates a focal band in the
+             centre 40% of the viewport. Text illuminates when it enters
+             the natural reading zone — not at the top or bottom of scroll.
+             This is the Bio-Synchronous principle applied to typography.
+   ════════════════════════════════════════════════════════════════════ */
+function initManifestoScrollLit() {
+  const lines = document.querySelectorAll('[data-lit]');
+  if (!window.IntersectionObserver || !lines.length) return;
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(en => en.target.classList.toggle('lit', en.isIntersecting));
+  }, { rootMargin: '-30% 0px -30% 0px' });
+  lines.forEach(l => io.observe(l));
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   FUNCTION: initActiveNavTracking
+   SCOPE:    Update dock nav active state as sections enter the viewport
+   WHY:      Provides orientation cue (WCAG 3.2.3 Consistent Navigation).
+             Underline decoration is a NON-COLOUR CUE satisfying WCAG 1.4.1.
+   ════════════════════════════════════════════════════════════════════ */
+function initActiveNavTracking(sectionIds) {
+  const navLinks = [...document.querySelectorAll('.dock-nav a')];
+  if (!window.IntersectionObserver || !navLinks.length) return;
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(en => {
+      if (en.isIntersecting) {
+        navLinks.forEach(a => {
+          const active = a.getAttribute('href') === `#${en.target.id}`;
+          a.classList.toggle('active', active);
+        });
+      }
+    });
+  }, { threshold: 0.35 });
+  sectionIds.forEach(id => { const el = document.getElementById(id); if (el) io.observe(el); });
+}
+
+/* ── announceToScreenReader ─────────────────────────────────────────────
+   WHY: Dynamic content changes must be announced to assistive technology.
+        aria-live="polite" queues announcements without interrupting
+        current speech — preferred over "assertive" for non-critical updates. */
+function announceToScreenReader(message) {
+  const region = document.getElementById('sr-live');
+  if (!region) return;
+  region.textContent = '';
+  setTimeout(() => { region.textContent = message; }, 60);
+}
+
+
+// ── MODULE: ANALYTICS ────────────────────────────────────────────
+/* ═══════════════════════════════════════════════════════════════════════════
+   MODULE: modules/analytics.js
+   SCOPE:  All Phase 4 visual analytics — Bimodal Dot Plot (gravity effect),
+           Waffle Chart, SVG Treemap, Candlestick Stress Test,
+           Admin Time Distribution, Growth Trajectory
+   WHY:    Heavy SVG/Canvas animations are isolated in this module so they
+           can be dynamically imported only when the #analytics section
+           is close to entering the viewport (heuristic prefetch target).
+           GPU-offloaded Canvas is used for the bimodal animation to prevent
+           main-thread jitter during the gravity effect animation.
+   ════════════════════════════════════════════════════════════════════════ */
+
+'use strict';
+
+/* ═══════════════════════════════════════════════════════════════════════
+   FUNCTION: renderBimodalDotPlot
+   SCOPE:    GPU-Canvas bimodal distribution with interactive gravity effect
+   WHY:      Canvas (not SVG) is used here because animating 48+ elements
+             simultaneously via SVG triggers individual DOM repaints per dot.
+             A single Canvas draw call per frame is one GPU call — this is
+             the "offload heavy animations to GPU" constraint from v2026.1.
+   ════════════════════════════════════════════════════════════════════ */
+function renderBimodalDotPlot(campusData) {
+  const canvas = document.getElementById('dot-canvas');
+  const btn = document.getElementById('gravity-btn');
+  if (!canvas) return;
+
+  const ctx = canvas.getContext('2d');
+  const dpr = window.devicePixelRatio || 1;
+  let gravityTriggered = false;
+  let animFrame = null;
+
+  /* Legacy dots: positioned in the left 78% of the canvas */
+  const legacyDots = Array.from({ length: 48 }, (_, i) => ({
+    x: 30 + Math.random() * (canvas.offsetWidth * 0.72),
+    y: 18 + Math.random() * 164,
+    r: 2.5 + Math.random() * 3.8,
+    ox: 0, /* Will be set after canvas sizing */
+    oy: 0,
+    alpha: 0.15 + Math.random() * 0.25,
+    vibPhase: Math.random() * Math.PI * 2,
+  }));
+
+  /* Anchor: bottom-right, solid + blue glow */
+  const anchor = { x: 0, y: 0, r: 10 }; /* Calculated after sizing */
+
+  /* Gravity state per dot */
+  let gravityProgress = 0; /* 0 → 1 over 1.2s */
+  let isVibrating = false;
+
+  function resizeCanvas() {
+    /* WHY: Retina/HiDPI scaling — canvas internal size matches device
+            pixels to prevent blurry rendering on high-density screens. */
+    const w = canvas.offsetWidth;
+    const h = 220;
+    canvas.width = w * dpr;
+    canvas.height = h * dpr;
+    canvas.style.height = `${h}px`;
+    ctx.scale(dpr, dpr);
+
+    anchor.x = w - 55;
+    anchor.y = 165;
+
+    /* Recalculate dot origin offsets relative to anchor */
+    legacyDots.forEach(d => {
+      d.ox = d.x - anchor.x;
+      d.oy = d.y - anchor.y;
+    });
+  }
+
+  function drawFrame(timestamp) {
+    const w = canvas.offsetWidth;
+    const h = 220;
+    ctx.clearRect(0, 0, w, h);
+
+    /* ── Legacy dots ── */
+    legacyDots.forEach(d => {
+      ctx.save();
+
+      let drawX = d.x;
+      let drawY = d.y;
+
+      if (isVibrating && !gravityTriggered) {
+        /* Vibration: 2px amplitude, 8Hz — represents "friction" */
+        drawX += Math.sin(timestamp * 0.008 + d.vibPhase) * 2;
+        drawY += Math.cos(timestamp * 0.008 + d.vibPhase) * 1.2;
+      }
+
+      if (gravityTriggered) {
+        /* Gravity pull: lerp toward anchor over gravityProgress */
+        const ease = 1 - Math.pow(1 - gravityProgress, 3); /* ease-out-cubic */
+        drawX = d.x + (anchor.x - d.x) * ease;
+        drawY = d.y + (anchor.y - d.y) * ease;
+        ctx.globalAlpha = d.alpha * (1 - ease);
+      } else {
+        ctx.globalAlpha = d.alpha;
+      }
+
+      ctx.beginPath();
+      ctx.arc(drawX, drawY, d.r, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(229,229,229,0.85)';
+      ctx.strokeStyle = 'rgba(229,229,229,0.5)';
+      ctx.lineWidth = 0.5;
+      ctx.fill();
+      ctx.stroke();
+      ctx.restore();
+    });
+
+    /* ── Anchor dot ── */
+    ctx.save();
+    ctx.beginPath();
+    ctx.arc(anchor.x, anchor.y, anchor.r, 0, Math.PI * 2);
+    ctx.fillStyle = '#050505';
+    ctx.strokeStyle = '#007BFF';
+    ctx.lineWidth = 1.5;
+    /* Blue glow via shadow (no blur() filter — constraint: no motion blur) */
+    ctx.shadowColor = 'rgba(0,123,255,0.55)';
+    ctx.shadowBlur = 10;
+    ctx.fill();
+    ctx.stroke();
+    ctx.restore();
+
+    /* ── Labels ── */
+    ctx.save();
+    ctx.font = `10px 'SF Mono', monospace`;
+    ctx.fillStyle = 'rgba(99,99,102,0.85)';
+    ctx.fillText('← Legacy ERP · Fragmented Costs', 30, h - 8);
+    ctx.textAlign = 'right';
+    ctx.fillStyle = 'rgba(0,123,255,0.75)';
+    ctx.fillText('Institutify Anchor →', w - 20, h - 8);
+    ctx.restore();
+
+    /* Advance gravity animation */
+    if (gravityTriggered && gravityProgress < 1) {
+      gravityProgress = Math.min(gravityProgress + 0.012, 1);
+    }
+
+    animFrame = requestAnimationFrame(drawFrame);
+  }
+
+  /* Vibrate dots on canvas hover — represents "friction" */
+  canvas.addEventListener('mouseenter', () => { isVibrating = true; });
+  canvas.addEventListener('mouseleave', () => { isVibrating = false; });
+
+  btn?.addEventListener('click', (e) => {
+    if (gravityTriggered) return;
+    gravityTriggered = true;
+    invokeSuccessBloom({ x: e.clientX, y: e.clientY });
+    btn.textContent = 'Resources Consolidated ✓';
+    btn.disabled = true;
+    announceToScreenReader('Legacy cost points consolidating toward the Institutify anchor.');
+  });
+
+  /* Start render loop */
+  resizeCanvas();
+  animFrame = requestAnimationFrame(drawFrame);
+
+  /* Cleanup on page unload to prevent memory leaks */
+  window.addEventListener('beforeunload', () => cancelAnimationFrame(animFrame));
+  window.addEventListener('resize', resizeCanvas);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   FUNCTION: renderWaffleChart
+   SCOPE:    10×10 waffle chart showing % administrative time reclaimed
+   WHY:      Waffle charts make percentage values viscerally legible at
+             a glance — each square is exactly 1%. Users understand "67
+             of 100 squares are blue" faster than reading "67%".
+             This satisfies the "Interpretability" cognitive architecture
+             standard — metrics must be seen AND understood.
+   ════════════════════════════════════════════════════════════════════ */
+function renderWaffleChart(waffleData) {
+  const container = document.getElementById('waffle-container');
+  if (!container || !waffleData) return;
+
+  const { reclaimedPct } = waffleData;
+  const COLS = 10;
+  const ROWS = 10;
+  const TOTAL = COLS * ROWS;
+  const reclaimedCount = Math.round((reclaimedPct / 100) * TOTAL);
+
+  container.innerHTML = ''; /* Clear before re-render */
+  container.setAttribute('aria-label',
+    `Waffle chart: ${reclaimedPct}% of administrative time reclaimed by Institutify`);
+
+  for (let i = 0; i < TOTAL; i++) {
+    const sq = document.createElement('div');
+    sq.className = `waffle-sq ${i < reclaimedCount ? 'waffle-reclaimed' : 'waffle-baseline'}`;
+    sq.setAttribute('role', 'img');
+    sq.setAttribute('aria-label',
+      i < reclaimedCount ? 'Reclaimed by Institutify' : 'Remaining administrative burden');
+    /* Stagger reveal animation — each square cascades in */
+    sq.style.animationDelay = `${(i * 12)}ms`;
+    container.appendChild(sq);
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   FUNCTION: renderSVGTreemap
+   SCOPE:    Proportional treemap of management avenue time allocation
+   WHY:      Treemaps show part-to-whole relationships with area encoding —
+             the most accurate pre-attentive channel for size comparison.
+             Using SVG (not Canvas) here because treemaps are static after
+             render; no animation loop is needed.
+   ════════════════════════════════════════════════════════════════════ */
+function renderSVGTreemap(adminTimeData) {
+  const svg = document.getElementById('treemap-svg');
+  if (!svg || !adminTimeData) return;
+
+  const W = svg.getBoundingClientRect().width || 600;
+  const H = 200;
+  svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
+
+  /* Simplified slice layout (horizontal proportional) */
+  const total = adminTimeData.reduce((s, d) => s + d.beforeHrs, 0);
+  const colors = ['#007BFF', 'rgba(0,123,255,0.6)', 'rgba(0,123,255,0.4)', 'rgba(255,159,10,0.7)', 'rgba(255,59,48,0.55)'];
+  let xCursor = 0;
+
+  adminTimeData.forEach((d, i) => {
+    const sliceW = (d.beforeHrs / total) * W;
+    const sliceH = H * 0.72;
+
+    const rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+    rect.setAttribute('x', xCursor + 2);
+    rect.setAttribute('y', H - sliceH);
+    rect.setAttribute('width', sliceW - 4);
+    rect.setAttribute('height', sliceH);
+    rect.setAttribute('fill', colors[i % colors.length]);
+    rect.setAttribute('rx', '3');
+    rect.setAttribute('aria-label', `${d.task}: ${d.beforeHrs}h/wk before Institutify`);
+    rect.style.transformOrigin = `${xCursor + sliceW / 2}px ${H}px`;
+    rect.style.animation = `treemapReveal 0.6s var(--ease, cubic-bezier(0.2,0,0,1)) ${i * 0.1}s both`;
+
+    const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+    text.setAttribute('x', xCursor + sliceW / 2);
+    text.setAttribute('y', H - sliceH + 18);
+    text.setAttribute('text-anchor', 'middle');
+    text.setAttribute('fill', '#E5E5E5');
+    text.setAttribute('font-size', '9');
+    text.setAttribute('font-family', 'SF Mono, monospace');
+    text.setAttribute('aria-hidden', 'true');
+    text.textContent = sliceW > 40 ? d.task : '';
+
+    const subText = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+    subText.setAttribute('x', xCursor + sliceW / 2);
+    subText.setAttribute('y', H - sliceH + 32);
+    subText.setAttribute('text-anchor', 'middle');
+    subText.setAttribute('fill', 'rgba(229,229,229,0.6)');
+    subText.setAttribute('font-size', '8');
+    subText.setAttribute('font-family', 'SF Mono, monospace');
+    subText.setAttribute('aria-hidden', 'true');
+    subText.textContent = sliceW > 40 ? `${d.beforeHrs}h` : '';
+
+    svg.appendChild(rect);
+    svg.appendChild(text);
+    svg.appendChild(subText);
+
+    xCursor += sliceW;
+  });
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   FUNCTION: renderCandlestickStressTest
+   SCOPE:    Per-campus capacity vs. enrollment candlestick chart
+   WHY:      Candlestick encoding communicates the gap between capacity
+             ceiling (wick) and actual load (body) more immediately than
+             a bar chart, because the empty space IS the data — it shows
+             the "Overextension Zone" without a legend.
+   ════════════════════════════════════════════════════════════════════ */
+function renderCandlestickStressTest(campusData) {
+  const area = document.getElementById('candle-area');
+  if (!area || !campusData) return;
+
+  const MAX_H = 116;
+
+  campusData.forEach((d, i) => {
+    const bodyH = Math.round((d.enrollmentPct / 100) * MAX_H);
+    const wickH = MAX_H - bodyH;
+    const color = d.enrollmentPct >= 93
+      ? 'rgba(255,59,48,0.78)'
+      : d.enrollmentPct >= 80
+        ? 'rgba(255,159,10,0.72)'
+        : 'rgba(52,199,89,0.72)';
+    const status = d.enrollmentPct >= 93 ? 'Overextended'
+      : d.enrollmentPct >= 80 ? 'Stress zone' : 'Healthy';
+
+    const col = document.createElement('div');
+    col.className = 'candle-col';
+
+    const wick = document.createElement('div');
+    wick.className = 'c-wick';
+    wick.style.cssText = `height:${wickH}px;animation-delay:${i * 0.09}s`;
+    wick.setAttribute('aria-hidden', 'true');
+
+    const body = document.createElement('div');
+    body.className = 'c-body';
+    body.style.cssText = `height:${bodyH}px;background:${color};animation-delay:${i * 0.09}s`;
+    body.setAttribute('role', 'img');
+    body.setAttribute('aria-label', `${d.label}: ${d.enrollmentPct}% enrollment — ${status}`);
+
+    const lbl = document.createElement('div');
+    lbl.className = 'c-lbl';
+    lbl.textContent = d.postInstitutify ? '✓ Post' : d.id;
+
+    col.appendChild(wick);
+    col.appendChild(body);
+    col.appendChild(lbl);
+    area.insertBefore(col, area.querySelector('.stress-mark'));
+  });
+
+  /* Trigger bar animations when the chart scrolls into view */
+  if (window.IntersectionObserver) {
+    new IntersectionObserver(entries => {
+      entries.forEach(en => {
+        if (en.isIntersecting) {
+          en.target.querySelectorAll('.c-body, .c-wick').forEach(el => {
+            el.style.animationPlayState = 'running';
+          });
+        }
+      });
+    }, { threshold: 0.3 }).observe(area);
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   FUNCTION: renderAdminTimeDistribution
+   SCOPE:    Horizontal bar chart — before / after / goal per task
+   WHY:      Horizontal bars accommodate long task-label strings without
+             truncation — the vertical axis label problem common in
+             admin dashboards with descriptive category names.
+             Mean/Median toggle calls this function with different data
+             variants — the rendering logic itself is view-agnostic.
+   ════════════════════════════════════════════════════════════════════ */
+function renderAdminTimeDistribution(adminTimeData) {
+  const grid = document.getElementById('dist-grid');
+  if (!grid || !adminTimeData) return;
+  grid.innerHTML = ''; /* DRY: single render function, called on toggle */
+
+  adminTimeData.forEach((d, i) => {
+    const row = document.createElement('div');
+    row.className = 'dist-row';
+
+    const lbl = document.createElement('div');
+    lbl.className = 'dist-lbl';
+    lbl.textContent = d.task;
+
+    const bars = document.createElement('div');
+    bars.className = 'dist-bars';
+
+    const makeBar = (cls, val, delay, ariaLabel) => {
+      const wrap = document.createElement('div');
+      wrap.className = 'dist-bar-wrap';
+      const bar = document.createElement('div');
+      bar.className = `dist-bar ${cls}`;
+      bar.style.cssText = `width:${Math.round(val)}%;animation-delay:${i * 0.09 + delay}s`;
+      bar.setAttribute('role', 'img');
+      bar.setAttribute('aria-label', `${d.task} ${ariaLabel}: ${val}h/wk`);
+      const valEl = document.createElement('div');
+      valEl.className = 'dist-val';
+      valEl.textContent = `${val}h`;
+      wrap.appendChild(bar);
+      wrap.appendChild(valEl);
+      return wrap;
+    };
+
+    bars.appendChild(makeBar('dist-before', d.beforeHrs, 0, 'before Institutify'));
+    bars.appendChild(makeBar('dist-after', d.afterHrs, 0.05, 'after Institutify'));
+    bars.appendChild(makeBar('dist-goal', d.goalHrs, 0.1, 'target'));
+
+    row.appendChild(lbl);
+    row.appendChild(bars);
+    grid.appendChild(row);
+  });
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   FUNCTION: renderGrowthTrajectory
+   SCOPE:    SVG line chart — actual growth vs. conservative target
+   WHY:      stroke-dashoffset animation triggered by IntersectionObserver
+             is more efficient than requestAnimationFrame for a static path —
+             one CSS transition = one compositor task, not 60 JS callbacks.
+   ════════════════════════════════════════════════════════════════════ */
+function renderGrowthTrajectory(trajectoryData) {
+  const trajLine = document.getElementById('traj-line');
+  const trajArea = document.getElementById('traj-area');
+  const trajCard = document.getElementById('traj-card');
+  if (!trajLine || !trajCard) return;
+
+  if (window.IntersectionObserver) {
+    new IntersectionObserver(entries => {
+      entries.forEach(en => {
+        if (en.isIntersecting) {
+          trajLine.classList.add('drawn');
+          trajArea?.classList.add('drawn');
+        }
+      });
+    }, { threshold: 0.25 }).observe(trajCard);
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   FUNCTION: initMeanMedianToggle
+   SCOPE:    Toggle between mean and median distribution views
+   WHY:      In Phase 3, this will swap the data variant returned by the
+             analytics API endpoint. In this phase, we re-render the same
+             dataset to demonstrate the toggle UX contract is correct.
+             The rendering function (renderAdminTimeDistribution) is
+             data-agnostic — it accepts any conforming dataset.
+   ════════════════════════════════════════════════════════════════════ */
+function initMeanMedianToggle(adminTimeData) {
+  const toggleBtns = [...document.querySelectorAll('.toggle-btn[data-view]')];
+  toggleBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      toggleBtns.forEach(b => {
+        b.classList.remove('active');
+        b.setAttribute('aria-pressed', 'false');
+      });
+      btn.classList.add('active');
+      btn.setAttribute('aria-pressed', 'true');
+      /* Phase 3: fetch `/api/analytics?view=${btn.dataset.view}` here */
+      renderAdminTimeDistribution(adminTimeData);
+      announceToScreenReader(`Viewing ${btn.dataset.view} distribution.`);
+    });
+  });
+}
+
+
+// ── MODULE: PRICING ──────────────────────────────────────────────
+/* ═══════════════════════════════════════════════════════════════════════════
+   MODULE: modules/pricing.js
+   SCOPE:  Dynamic valuation calculator — ₹1,000 + (n × ₹6) + onboarding
+   WHY:    Isolated here so the formula constants can be swapped from the
+           JSON data layer without touching the DOM rendering logic.
+           The "Scaling Efficiency" shimmer is a visual signal that encodes
+           the pricing inflection point without requiring extra copy.
+   ════════════════════════════════════════════════════════════════════════ */
+
+'use strict';
+
+/* ═══════════════════════════════════════════════════════════════════════
+   FUNCTION: initPricingCalculator
+   SCOPE:    Bi-directional slider ↔ input sync + live cost calculation
+   WHY:      Bi-directional sync (input drives slider AND slider drives input)
+             prevents state drift when users tab into the input field and
+             type a value that exceeds the slider's range.
+             playHarmonicRise maps the profile count to a pitch range —
+             satisfying the "Harmonic Rise" sensory spec from Phase 6.
+   ════════════════════════════════════════════════════════════════════ */
+function initPricingCalculator(pricingConfig) {
+  const clientsInput = document.getElementById('clients-input');
+  const clientsSlider = document.getElementById('clients-slider');
+  const staffInput = document.getElementById('staff-input');
+  const staffSlider = document.getElementById('staff-slider');
+  const totalDisplay = document.getElementById('calc-total');
+  const breakdownEl = document.getElementById('calc-breakdown');
+  const scalingMsg = document.getElementById('scaling-msg');
+  const calcCta = document.getElementById('calc-cta');
+  if (!clientsInput || !staffInput) return;
+
+  const {
+    systemsPremiumINR,
+    perProfileINR,
+    onboardingMinINR,
+    onboardingMaxINR,
+    scalingThreshold,
+  } = pricingConfig;
+
+  function calculateSecurityAuditRiskScale() {
+    /* WHY: Function name follows the verbose naming convention from v2026.1.
+            "calculateSecurityAuditRiskScale" will be repurposed in Phase 3
+            to include a compliance risk multiplier per institution type.
+            Currently returns the base monthly cost calculation.         */
+    const clients = parseInt(clientsInput.value, 10) || 0;
+    const staff = parseInt(staffInput.value, 10) || 0;
+    const n = clients + staff;
+    const monthly = systemsPremiumINR + (n * perProfileINR);
+    return { clients, staff, n, monthly };
+  }
+
+  function updateCalcDisplay() {
+    const { n, monthly } = calculateSecurityAuditRiskScale();
+
+    if (totalDisplay) {
+      totalDisplay.textContent = `₹${monthly.toLocaleString('en-IN')} / monthly`;
+    }
+    if (breakdownEl) {
+      breakdownEl.textContent =
+        `Systems Premium: ₹${systemsPremiumINR.toLocaleString('en-IN')} · ` +
+        `Profiles (${n} × ₹${perProfileINR}): ₹${(n * perProfileINR).toLocaleString('en-IN')} · ` +
+        `Onboarding: ₹${onboardingMinINR.toLocaleString('en-IN')}–${onboardingMaxINR.toLocaleString('en-IN')} (one-time)`;
+    }
+
+    /* Scaling Efficiency threshold: accelerate shimmer above 100 profiles */
+    const isScaling = n > scalingThreshold;
+    if (scalingMsg) scalingMsg.classList.toggle('visible', isScaling);
+    const primaryBtn = document.querySelector('.btn-primary.calc-btn');
+    if (primaryBtn) primaryBtn.classList.toggle('scaling', isScaling);
+
+    /* Harmonic Rise: map profile count to frequency (220Hz – 880Hz) */
+    const freq = Math.min(220 + n * 0.6, 880);
+    window.InstAudio?.playHarmonicRise(freq);
+  }
+
+  /* Bi-directional sync — slider drives input, input drives slider */
+  function syncclients(value) {
+    clientsInput.value = value;
+    clientsSlider.value = value;
+    updateCalcDisplay();
+  }
+  function syncstaff(value) {
+    staffInput.value = value;
+    staffSlider.value = value;
+    updateCalcDisplay();
+  }
+
+  clientsInput.addEventListener('input', () => syncclients(clientsInput.value));
+  clientsSlider.addEventListener('input', () => syncclients(clientsSlider.value));
+  staffInput.addEventListener('input', () => syncstaff(staffInput.value));
+  staffSlider.addEventListener('input', () => syncstaff(staffSlider.value));
+
+  /* Initial render */
+  updateCalcDisplay();
+
+  /* CTA: invokeSuccessBloom + announce cost to screen readers */
+  calcCta?.addEventListener('click', (e) => {
+    invokeSuccessBloom({ x: e.clientX, y: e.clientY });
+    const { n } = calculateSecurityAuditRiskScale();
+    const display = totalDisplay?.textContent ?? '';
+    announceToScreenReader(
+      `ROI calculated for ${n} profiles. Monthly cost: ${display}. Redirecting to access request.`
+    );
+  });
+}
+
+
+
+// ── MODULE: NARRATIVE SLIDER ─────────────────────────────────────
+/* ══════════════════════════════════════════════════════════════════════
+   MODULE: initNarrativeSlider (v2026.5 — four-fix rewrite)
+   SCOPE:  Monocle drag slider + tag highlighting + caption binding + rAF
+
+   FIX 1 — Active tag highlighting
+     Applies .tag-active to whichever side-tag represents the dominant
+     view (>50% visible). Removed on the recessive side each frame.
+
+   FIX 2 — Caption box context binding
+     Only the cap-box matching the dominant view receives .cap-visible.
+     The other is opacity:0 + pointer-events:none — zero cognitive friction.
+
+   FIX 3 — rAF-batched render + will-change compositor promotion
+     pendingPct accumulates the latest requested value from input events.
+     A single requestAnimationFrame loop reads pendingPct and applies all
+     DOM mutations once per display frame — decoupling input rate (up to
+     120+/s on ProMotion) from render rate (display Hz).
+     Audio (harmonic rise) fires only on intentional drag START, not on
+     every render tick — satisfying the NI-02 audio constraint.
+
+   FIX 4 — Value proposition content added to sec-header (HTML-side fix)
+     Multi-Disciplinary Sync and Expert Override Logic are in the updated
+     sec-header copy below the slider, not duplicated in JS.
+   ══════════════════════════════════════════════════════════════════════ */
+function initNarrativeSlider() {
+  var sliderEl = document.getElementById('cmp-slider');
+  var sclient = document.getElementById('s-client');
+  var monocleLine = document.getElementById('monocle-divider');
+  var tagAdmin = document.querySelector('.tag-admin');
+  var tagclient = document.querySelector('.tag-client');
+  var capAdmin = document.querySelector('.cap-box.admin');
+  var capclient = document.querySelector('.cap-box.client');
+
+  var pct = 50, pendingPct = 50, dragging = false, rafId = null;
+
+  /* ── renderFrame: called by rAF — ALL DOM writes happen here ──────
+     WHY: Batching every write into one rAF callback means the browser
+          performs a single style recalculation per display frame
+          regardless of how many input events fired since the last one. */
+  function renderFrame() {
+    rafId = null;                          /* Mark loop as settled */
+    var v = Math.max(2, Math.min(98, pendingPct));
+    pct = v;
+
+    /* Clip-path: GPU-accelerated via will-change:clip-path on .s-client */
+    if (sclient) sclient.style.clipPath = 'inset(0 ' + (100 - v) + '% 0 0)';
+
+    /* Divider position */
+    if (monocleLine) {
+      monocleLine.style.left = v + '%';
+      monocleLine.setAttribute('aria-valuenow', Math.round(v));
+      monocleLine.setAttribute('aria-valuetext',
+        Math.round(v) + '% client view, ' + Math.round(100 - v) + '% Admin view');
+    }
+
+    /* [FIX 1] Active tag: client side is dominant when v > 50 */
+    var clientDominant = v > 50;
+    if (tagAdmin) tagAdmin.classList.toggle('tag-active', !clientDominant);
+    if (tagclient) tagclient.classList.toggle('tag-active', clientDominant);
+
+    /* [FIX 2] Caption: only the dominant box receives .cap-visible */
+    if (capAdmin) capAdmin.classList.toggle('cap-visible', !clientDominant);
+    if (capclient) capclient.classList.toggle('cap-visible', clientDominant);
+  }
+
+  /* ── scheduleRender: queues a rAF if one isn't already pending ────
+     WHY: Calling requestAnimationFrame repeatedly in the same frame
+          doesn't queue extra work — but guarding with rafId prevents
+          the redundant bookkeeping cost of calling it in hot loops. */
+  function scheduleRender() {
+    if (!rafId) rafId = requestAnimationFrame(renderFrame);
+  }
+
+  function requestPercent(v) {
+    pendingPct = v;
+    scheduleRender();
+  }
+
+  function clientXToPercent(clientX) {
+    if (!sliderEl) return 50;
+    var r = sliderEl.getBoundingClientRect();
+    return ((clientX - r.left) / r.width) * 100;
+  }
+
+  /* Initial render to set .cap-visible on the admin box at load */
+  scheduleRender();
+
+  if (monocleLine) {
+    monocleLine.addEventListener('mousedown', function (e) {
+      dragging = true;
+      e.preventDefault();
+      /* [NI-02] Audio only on intentional drag start, not on every tick */
+      if (window.InstAudio) window.InstAudio.playHarmonicRise(220 + (pct / 100) * 660);
+    });
+    monocleLine.addEventListener('touchstart', function (e) {
+      dragging = true;
+      e.preventDefault();
+      if (window.InstAudio) window.InstAudio.playHarmonicRise(220 + (pct / 100) * 660);
+    }, { passive: false });
+    monocleLine.addEventListener('keydown', function (e) {
+      if (e.key === 'ArrowRight') requestPercent(pct + 2);
+      if (e.key === 'ArrowLeft') requestPercent(pct - 2);
+      if (e.key === 'Home') requestPercent(2);
+      if (e.key === 'End') requestPercent(98);
+    });
+  }
+
+  if (sliderEl) {
+    /* mousemove: only update pendingPct, never write to DOM directly */
+    sliderEl.addEventListener('mousemove', function (e) {
+      if (dragging) requestPercent(clientXToPercent(e.clientX));
+    });
+    /* touchmove: passive:false required to call preventDefault,
+       which prevents the page from scrolling during a horizontal drag.
+       touch-action:pan-y on .slider-container handles vertical scroll
+       natively so this only fires on clearly horizontal gestures.      */
+    sliderEl.addEventListener('touchmove', function (e) {
+      if (dragging && e.touches[0]) {
+        requestPercent(clientXToPercent(e.touches[0].clientX));
+        e.preventDefault();
+      }
+    }, { passive: false });
+    sliderEl.addEventListener('click', function (e) {
+      requestPercent(clientXToPercent(e.clientX));
+    });
+  }
+
+  document.addEventListener('mouseup', function () { dragging = false; });
+  document.addEventListener('touchend', function () { dragging = false; });
+
+  /* Auto-reveal sweep on first scroll into view */
+  if (sliderEl && window.IntersectionObserver) {
+    new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        if (en.isIntersecting) {
+          var t0 = null;
+          function animate(ts) {
+            if (!t0) t0 = ts;
+            var p = Math.min((ts - t0) / 1800, 1);
+            var ease = 1 - Math.pow(1 - p, 4);
+            requestPercent(5 + (60 - 5) * ease);
+            if (p < 1) requestAnimationFrame(animate);
+          }
+          requestAnimationFrame(animate);
+        }
+      });
+    }, { threshold: 0.3 }).observe(sliderEl);
+  }
+}
+
+// ── MODULE: DOM RENDERER (renderFromData) ────────────────────────
+/* ═══════════════════════════════════════════════════════════════════════
+   FUNCTION: renderFromData
+   SCOPE:    Schema-guarded DOM hydration — Circuit Breaker pattern
+   WHY:      [FIX 5] Atomic State Guard / Schema Validation
+             Without a guard, this function would silently render from
+             stale, partial, or version-mismatched data — a non-atomic
+             hydration that violates SOC 2 Availability (system appears
+             "up" but renders incorrect state).
+             The Circuit Breaker verifies:
+               (a) data._meta.version === SHELL_VERSION
+               (b) all REQUIRED_KEYS are present on the data object
+             On failure: log the mismatch, return without touching the DOM
+             (the LKGC — Last Known Good Configuration — is preserved), and
+             signal InstWS.lost() so the WSS indicator reflects data staleness.
+             On success: proceed to Commit Phase — all DOM mutations below.
+   ════════════════════════════════════════════════════════════════════ */
+const SHELL_VERSION = '1.9';
+const REQUIRED_KEYS = ['hero', 'enrollmentSteps', 'managementAvenues',
+  'campusStressData', 'adminTimeData', 'waffleData',
+  'pricing', 'security', 'trustBadges', 'founders', 'navigation'];
+
+function renderFromData(data) {
+  /* ── Audit Phase: verify schema before any DOM write ─────────────── */
+  const version = data?._meta?.version;
+  const missingKey = REQUIRED_KEYS.find(k => !data[k]);
+
+  if (version !== SHELL_VERSION || missingKey) {
+    console.error(
+      `[Institutify] Circuit Breaker: data version "${version}" ≠ shell "${SHELL_VERSION}"` +
+      (missingKey ? `, missing key: "${missingKey}"` : '') +
+      '. Preserving Last Known Good Configuration.'
+    );
+    /* Signal WSS surface — data is stale; user should not trust live state */
+    if (window.InstWS) window.InstWS.lost();
+    return; /* ← Hard stop. No DOM mutations below this line. */
+  }
+  /* ── Commit Phase: schema verified — proceed to hydration ────────── */
+  var dockNav = document.getElementById('dock-nav');
+  var sheetList = document.getElementById('sheet-list');
+
+  if (data.navigation && dockNav) {
+    data.navigation.dock.forEach(function (item, i) {
+      var a = document.createElement('a');
+      a.href = item.href; a.textContent = item.label;
+      if (i === 0) a.classList.add('active');
+      dockNav.appendChild(a);
+    });
+  }
+  if (data.navigation && sheetList) {
+    data.navigation.sheet.forEach(function (item, i) {
+      var li = document.createElement('li');
+      var a = document.createElement('a'); a.href = item.href;
+      if (i === 0) a.id = 'sheet-first';
+      var lbl = document.createTextNode(item.label);
+      var arr = document.createElement('span'); arr.textContent = '↗';
+      a.appendChild(lbl); a.appendChild(arr);
+      li.appendChild(a); sheetList.appendChild(li);
+    });
+  }
+
+  var h = data.hero || {};
+  var eyebrow = document.getElementById('hero-eyebrow');
+  if (eyebrow && h.eyebrow) eyebrow.textContent = h.eyebrow;
+
+  var h1El = document.getElementById('hero-h1');
+  if (h1El && h.headline) {
+    h.headline.forEach(function (line, i) {
+      if (i > 0) h1El.appendChild(document.createElement('br'));
+      if (i >= 2) { var em = document.createElement('em'); em.textContent = line; h1El.appendChild(em); }
+      else { h1El.appendChild(document.createTextNode(line)); }
+    });
+  }
+  var bodyEl = document.getElementById('hero-body');
+  if (bodyEl && h.body) bodyEl.textContent = h.body;
+
+  var pillsEl = document.getElementById('hero-pills');
+  if (pillsEl && h.pills) {
+    h.pills.forEach(function (p) {
+      var span = document.createElement('span'); span.className = 'pill';
+      span.setAttribute('aria-label', p.label + ': ' + p.detail);
+      var dot = document.createElement('span'); dot.className = 'pill-dot'; dot.setAttribute('aria-hidden', 'true');
+      span.appendChild(dot); span.appendChild(document.createTextNode(p.label));
+      pillsEl.appendChild(span);
+    });
+  }
+  var statsEl = document.getElementById('hero-stats');
+  if (statsEl && h.stats) {
+    h.stats.forEach(function (s) {
+      var div = document.createElement('div'); div.className = 'stat';
+      var val = document.createElement('div'); val.className = 'stat-val'; val.textContent = s.value;
+      var lbl = document.createElement('div'); lbl.className = 'stat-lbl'; lbl.textContent = s.label;
+      div.appendChild(val); div.appendChild(lbl); statsEl.appendChild(div);
+    });
+  }
+
+  var funnelEl = document.getElementById('enrollment-funnel');
+  if (funnelEl && data.enrollmentSteps) {
+    data.enrollmentSteps.forEach(function (step, i) {
+      var div = document.createElement('div');
+      div.className = 'funnel-step reveal' + (i > 0 ? ' d' + Math.min(i, 4) : '');
+      div.setAttribute('role', 'listitem');
+      var num = document.createElement('div'); num.className = 'step-num' + (step.active ? ' active' : '');
+      num.setAttribute('aria-hidden', 'true'); num.textContent = step.step;
+      var title = document.createElement('div'); title.className = 'step-title'; title.textContent = step.title;
+      var sub = document.createElement('p'); sub.className = 'step-sub'; sub.textContent = step.sub;
+      var owner = document.createElement('span'); owner.className = 'step-owner'; owner.textContent = step.owner;
+      div.appendChild(num); div.appendChild(title); div.appendChild(sub); div.appendChild(owner);
+      funnelEl.appendChild(div);
+    });
+  }
+
+  var avenuesEl = document.getElementById('avenues-grid');
+  if (avenuesEl && data.managementAvenues) {
+    data.managementAvenues.forEach(function (av, i) {
+      var card = document.createElement('div');
+      card.className = 'avenue-card reveal' + (i > 0 ? ' d' + Math.min(i, 4) : '');
+      card.setAttribute('tabindex', '0');
+      var icon = document.createElement('div'); icon.className = 'avenue-icon'; icon.textContent = av.icon; icon.setAttribute('aria-hidden', 'true');
+      var h4 = document.createElement('h4'); h4.textContent = av.title;
+      var p = document.createElement('p'); p.textContent = av.body;
+      var badge = document.createElement('span'); badge.className = 'avenue-badge'; badge.textContent = av.badge;
+      card.appendChild(icon); card.appendChild(h4); card.appendChild(p); card.appendChild(badge);
+      avenuesEl.appendChild(card);
+    });
+  }
+
+  var secWrap = document.getElementById('security-table-wrap');
+  if (secWrap && data.security) {
+    var table = document.createElement('table'); table.className = 'sec-table';
+    table.setAttribute('aria-label', 'Security controls and compliance status');
+    var thead = document.createElement('thead'); var hRow = document.createElement('tr');
+    ['Control', 'Standard', 'Status', 'Scope'].forEach(function (h) {
+      var th = document.createElement('th'); th.setAttribute('scope', 'col'); th.textContent = h; hRow.appendChild(th);
+    });
+    thead.appendChild(hRow); table.appendChild(thead);
+    var tbody = document.createElement('tbody');
+    data.security.forEach(function (row) {
+      var tr = document.createElement('tr');
+      var td1 = document.createElement('td'); td1.textContent = row.control;
+      var td2 = document.createElement('td'); td2.textContent = row.standard;
+      var td3 = document.createElement('td');
+      var dw = document.createElement('span'); dw.className = 'live-dot';
+      var dot = document.createElement('span'); dot.className = 'ldot ' + row.statusType;
+      dw.appendChild(dot); dw.appendChild(document.createTextNode(row.status)); td3.appendChild(dw);
+      var td4 = document.createElement('td'); td4.textContent = row.scope;
+      [td1, td2, td3, td4].forEach(function (td) { tr.appendChild(td); });
+      tbody.appendChild(tr);
+    });
+    table.appendChild(tbody); secWrap.appendChild(table);
+  }
+
+  var foundersGrid = document.getElementById('founders-grid');
+  if (foundersGrid && data.founders) {
+    data.founders.forEach(function (f, i) {
+      var card = document.createElement('div'); card.className = 'f-card reveal' + (i > 0 ? ' d' + i : '');
+      card.setAttribute('tabindex', '0');
+      var init = document.createElement('div'); init.className = 'f-init'; init.textContent = f.initials; init.setAttribute('aria-hidden', 'true');
+      var name = document.createElement('div'); name.className = 'f-name'; name.textContent = f.name;
+      var role = document.createElement('div'); role.className = 'f-role'; role.textContent = f.role;
+      var quote = document.createElement('p'); quote.className = 'f-quote'; quote.textContent = f.quote;
+      card.appendChild(init); card.appendChild(name); card.appendChild(role); card.appendChild(quote);
+      foundersGrid.appendChild(card);
+    });
+  }
+
+  var footerInner = document.getElementById('footer-inner');
+  if (footerInner) {
+    var grid = document.createElement('div'); grid.className = 'footer-grid';
+    var brand = document.createElement('div');
+    var bt = document.createElement('div'); bt.className = 'footer-brand'; bt.textContent = 'Institutify';
+    var bp = document.createElement('p'); bp.className = 'footer-tagline'; bp.textContent = 'The institutional operating platform. Frictionless. Secure. Sovereign.';
+    brand.appendChild(bt); brand.appendChild(bp); grid.appendChild(brand);
+    [['Product', ['Platform', 'Enrollment', 'Management', 'Pricing']],
+    ['Company', ['Team', 'Blog', 'Careers', 'Press']],
+    ['Support', ['Documentation', 'IT Support', 'Status', 'Contact']]
+    ].forEach(function (pair) {
+      var col = document.createElement('nav'); col.setAttribute('aria-label', pair[0] + ' links');
+      var h = document.createElement('div'); h.className = 'fc-h'; h.textContent = pair[0];
+      var ul = document.createElement('ul'); ul.className = 'fc-ul';
+      pair[1].forEach(function (lk) {
+        var li = document.createElement('li'); var a = document.createElement('a');
+        a.href = '#' + lk.toLowerCase().replace(' ', '-'); a.textContent = lk;
+        li.appendChild(a); ul.appendChild(li);
+      });
+      col.appendChild(h); col.appendChild(ul); grid.appendChild(col);
+    });
+    footerInner.appendChild(grid);
+    var ts = document.createElement('div'); ts.className = 'trust-strip'; ts.setAttribute('role', 'list');
+    if (data.trustBadges) {
+      data.trustBadges.forEach(function (b) {
+        var div = document.createElement('div'); div.className = 't-badge'; div.setAttribute('role', 'listitem');
+        var dot = document.createElement('span'); dot.className = 't-dot'; dot.style.background = b.color;
+        div.appendChild(dot); div.appendChild(document.createTextNode(b.label));
+        ts.appendChild(div);
+      });
+    }
+    footerInner.appendChild(ts);
+    var bottom = document.createElement('div'); bottom.className = 'footer-bottom';
+    var copy = document.createElement('p'); copy.textContent = '© 2026 Institutify, Inc. All rights reserved.';
+    var links = document.createElement('p');
+    [['Privacy Policy', '#security'], ['Terms', '#security'], ['Data Sovereignty', '#security'], ['Security', '#security']].forEach(function (pair, i) {
+      if (i > 0) links.appendChild(document.createTextNode(' · '));
+      var a = document.createElement('a'); a.href = pair[1]; a.textContent = pair[0]; links.appendChild(a);
+    });
+    bottom.appendChild(copy); bottom.appendChild(links);
+    footerInner.appendChild(bottom);
+  }
+}
+
+// ── MODULE: APP BOOTSTRAP ────────────────────────────────────────
+(function main() {
+
+  // First-visit logo
+  const logo = document.getElementById('logo');
+  let logoSeen = false;
+  try { logoSeen = !!localStorage.getItem('inst-v2026-seen'); } catch { }
+  if (!logoSeen && logo) {
+    logo.classList.add('logo-first-visit');
+    try { localStorage.setItem('inst-v2026-seen', '1'); } catch { }
+  }
+
+  // Core systems
+  initTheme();
+  initWSSHeartbeat();
+  initAudioEngine();
+  initLuminousPulse();
+
+  // Hydrate DOM from inlined data
+  renderFromData(PLATFORM_DATA);
+
+  // UI systems
+  initBottomSheet();
+  initScrollReveal();
+  initManifestoScrollLit();
+
+  const SECTION_ORDER = ['home', 'features', 'enrollment', 'clients', 'management', 'analytics', 'pricing', 'security', 'founders'];
+  initActiveNavTracking(SECTION_ORDER);
+  initScrollVelocityPrefetcher(SECTION_ORDER);
+  initNarrativeSlider();
+
+  // Analytics
+  renderBimodalDotPlot(PLATFORM_DATA.campusStressData);
+  renderWaffleChart(PLATFORM_DATA.waffleData);
+  renderSVGTreemap(PLATFORM_DATA.adminTimeData);
+  renderCandlestickStressTest(PLATFORM_DATA.campusStressData);
+  renderAdminTimeDistribution(PLATFORM_DATA.adminTimeData);
+  renderGrowthTrajectory(PLATFORM_DATA.growthTrajectory);
+  initMeanMedianToggle(PLATFORM_DATA.adminTimeData);
+  initPricingCalculator(PLATFORM_DATA.pricing);
+
+  // Hero CTA
+  document.getElementById('hero-cta')?.addEventListener('click', function (e) {
+    invokeSuccessBloom({ x: e.clientX, y: e.clientY });
+  });
+
+
+  /* ════════════════════════════════════════════════════════════════════
+     MODULE: initSimulationEngine
+     SCOPE:  Simulation Engine for the client Dashboard (v2026.5)
+     WHY:    Phase A — Performance Index heartbeat oscillates every 10s.
+             The Growth Arrow (▲/▼) rotates 0° or 180° by comparing
+             R_new vs R_old, not a random direction — it tracks the
+             actual delta so the arrow always reflects truth.
+             Phase B — Dividend Logic: subjects with more units advance
+             at a proportionally higher rate (baseRate multiplier),
+             creating a living sense of progression without fake data.
+             Audio is event-gated: the harmonic rise only fires when
+             the slider is actively dragged — never passively.
+  ════════════════════════════════════════════════════════════════════ */
+  function initSimulationEngine() {
+    /* Subject dataset — Dividend Logic multipliers per unit count */
+    var SUBJECTS = [
+      { name: 'Maths', units: 8, baseRate: 1.00, progress: 62.0 },
+      { name: 'Science', units: 12, baseRate: 1.15, progress: 58.0 },
+      { name: 'English', units: 10, baseRate: 1.06, progress: 74.0 },
+      { name: 'History', units: 7, baseRate: 0.95, progress: 45.0 },
+    ];
+
+    /* Build subject bar DOM — called once on init */
+    function buildSubjectBars() {
+      var container = document.getElementById('subject-bars');
+      if (!container) return;
+      container.innerHTML = '';
+      SUBJECTS.forEach(function (s) {
+        var row = document.createElement('div'); row.className = 'sub-bar-row';
+        var name = document.createElement('div'); name.className = 'sub-bar-name'; name.textContent = s.name;
+        var track = document.createElement('div'); track.className = 'sub-bar-track';
+        var fill = document.createElement('div'); fill.className = 'sub-bar-fill';
+        fill.style.width = s.progress.toFixed(1) + '%';
+        fill.dataset.subject = s.name;
+        var pct = document.createElement('div'); pct.className = 'sub-bar-pct'; pct.textContent = Math.round(s.progress) + '%';
+        pct.dataset.subjectPct = s.name;
+        track.appendChild(fill);
+        row.appendChild(name); row.appendChild(track); row.appendChild(pct);
+        container.appendChild(row);
+      });
+    }
+
+    /* Phase A — Heartbeat: runs every 10s, oscillates Performance Index */
+    var perfBase = 87.3, perfOld = 87.3;
+    function performanceHeartbeat() {
+      var indexEl = document.getElementById('perf-index');
+      var arrowEl = document.getElementById('growth-arrow');
+      var trendEl = document.getElementById('perf-trend');
+      if (!indexEl) return;
+
+      /* Slight positive bias: +0.8 avg per tick models healthy growth */
+      var delta = (Math.random() * 1.4) - 0.4;
+      var perfNew = Math.min(99.9, Math.max(50, perfBase + delta));
+      var isUp = perfNew >= perfOld;
+      perfOld = perfBase;
+      perfBase = perfNew;
+
+      indexEl.textContent = perfNew.toFixed(1);
+
+      if (arrowEl) {
+        arrowEl.classList.toggle('up', isUp);
+        arrowEl.classList.toggle('down', !isUp);
+      }
+      if (trendEl) {
+        trendEl.textContent = isUp
+          ? '↑ Improving trajectory'
+          : '↓ Slight regression — review flagged';
+      }
+
+      /* Phase B — Dividend Logic: advance each subject bar proportionally */
+      var maxGain = 0.35;
+      SUBJECTS.forEach(function (s) {
+        var gain = maxGain * s.baseRate * (isUp ? 1 : 0.3);
+        s.progress = Math.min(100, s.progress + gain);
+        var fill = document.querySelector('[data-subject="' + s.name + '"]');
+        if (fill) fill.style.width = s.progress.toFixed(1) + '%';
+        var pctEl = document.querySelector('[data-subject-pct="' + s.name + '"]');
+        if (pctEl) pctEl.textContent = Math.round(s.progress) + '%';
+      });
+
+      /* [FIX 2] Stochastic Jitter: ±500ms spread prevents thundering-herd
+         synchronisation across tabs sharing the same session start time. */
+      var jitter = Math.random() * 1000 - 500;   /* −500ms … +500ms */
+      setTimeout(performanceHeartbeat, 10000 + jitter);
+    }
+
+    buildSubjectBars();
+    /* Initial tick: full 10s + jitter so no two tabs fire simultaneously */
+    var initJitter = Math.random() * 1000 - 500;
+    setTimeout(performanceHeartbeat, 10000 + initJitter);
+  }
+
+  /* ════════════════════════════════════════════════════════════════════
+     MODULE: initCarouselDrag
+     SCOPE:  Mouse-drag scrolling for the client carousel
+     WHY:    CSS scroll-snap handles touch natively. Desktop users get
+             mouse-drag via the pointer events below — making the carousel
+             feel equally fluid without any JS library dependency.
+             passive:true on the listener prevents blocking the scroll thread.
+  ════════════════════════════════════════════════════════════════════ */
+  function initCarouselDrag() {
+    var car = document.getElementById('carousel');
+    if (!car) return;
+    var isDragging = false, startX = 0, scrollStart = 0;
+    car.addEventListener('mousedown', function (e) {
+      isDragging = true;
+      startX = e.pageX;
+      scrollStart = car.scrollLeft;
+      car.style.cursor = 'grabbing';
+    });
+    car.addEventListener('mousemove', function (e) {
+      if (!isDragging) return;
+      car.scrollLeft = scrollStart - (e.pageX - startX);
+    });
+    var endDrag = function () { isDragging = false; car.style.cursor = 'grab'; };
+    car.addEventListener('mouseup', endDrag);
+    car.addEventListener('mouseleave', endDrag);
+  }
+
+
+
+  // ══════════════════ MODULE: SECTOR_MORPHING_ENGINE — START ══════════════════
+  /* activateSectorMorphingEngine
+     Scope:  Total System Pivot triggered by carousel card selection.
+     WHY:    The Bleed Effect radiates from the selected card's position.
+             --sector-active is written once to document.body — every element
+             reading that token updates atomically with zero DOM iteration.
+             GPU-composited properties only: opacity, transform, transition.  */
+  function activateSectorMorphingEngine(selectedCard) {
+    var allCards = document.querySelectorAll('.cl-card[data-sector]');
+    var bleedLayer = document.getElementById('sector-bleed');
+    var sectorKey = selectedCard.dataset.sector;
+    var sectorRgb = selectedCard.dataset.sectorRgb;
+    var sectorVarMap = {
+      edu: 'var(--sector-edu)',
+      hlth: 'var(--sector-hlth)',
+      fin: 'var(--sector-fin)',
+      gov: 'var(--sector-gov)',
+    };
+    var activeColour = sectorVarMap[sectorKey] || 'var(--sector-edu)';
+
+    /* Step 1 — Write the single token that drives the Total System Pivot */
+    document.body.style.setProperty('--sector-active', 'var(--sector-' + sectorKey + ')');
+
+    /* Step 2 — Position bleed origin at the selected card's centre */
+    if (bleedLayer) {
+      var rect = selectedCard.getBoundingClientRect();
+      var bleedX = ((rect.left + rect.width / 2) / window.innerWidth * 100).toFixed(1) + '%';
+      var bleedY = ((rect.top + rect.height / 2) / window.innerHeight * 100).toFixed(1) + '%';
+      bleedLayer.style.setProperty('--bleed-x', bleedX);
+      bleedLayer.style.setProperty('--bleed-y', bleedY);
+      bleedLayer.style.setProperty('--bleed-rgb', sectorRgb);
+      bleedLayer.classList.add('bleed-active');
+    }
+
+    /* Step 3 — Elevate selected card, dim all others */
+    allCards.forEach(function (card) {
+      var isSelected = card === selectedCard;
+      card.classList.toggle('sector-selected', isSelected);
+      card.classList.toggle('sector-dimmed', !isSelected);
+      card.setAttribute('aria-pressed', isSelected ? 'true' : 'false');
+    });
+
+    /* Step 4 — Fire sector-accented Success Bloom from card centre */
+    if (window.invokeSuccessBloom) {
+      var rect = selectedCard.getBoundingClientRect();
+      invokeSuccessBloom({ x: rect.left + rect.width / 2, y: rect.top + rect.height / 2 });
+    }
+
+    /* Step 5 — Announce pivot to screen readers */
+    var sectorNames = { edu: 'Education', hlth: 'Healthcare', fin: 'Finance', gov: 'Government' };
+    if (window.announceToScreenReader) {
+      announceToScreenReader('Sector pivot: ' + (sectorNames[sectorKey] || sectorKey) + ' mode active.');
+    }
+  }
+
+  /* initSectorCarouselInteraction
+     WHY: Binds click and keyboard (Enter/Space) to each carousel card.
+          Keyboard support satisfies WCAG 2.1.1 (Keyboard Accessible)
+          since the cards use role="button".
+          Drag-scroll is preserved — click only fires if the user didn't
+          drag (deltaX guard prevents accidental sector activation).      */
+  function initSectorCarouselInteraction() {
+    var cards = document.querySelectorAll('.cl-card[data-sector]');
+    var dragThresh = 5;
+
+    cards.forEach(function (card) {
+      var mouseDownX = 0;
+
+      card.addEventListener('mousedown', function (e) { mouseDownX = e.clientX; });
+
+      card.addEventListener('click', function (e) {
+        var deltaX = Math.abs(e.clientX - mouseDownX);
+        if (deltaX > dragThresh) return; /* Drag — not a deliberate click */
+        activateSectorMorphingEngine(card);
+      });
+
+      card.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          activateSectorMorphingEngine(card);
+        }
+      });
+    });
+
+    /* Default pivot on page load: Education sector (first card) is active */
+    var firstCard = document.querySelector('.cl-card[data-sector].sector-selected');
+    if (firstCard) {
+      var bleedLayer = document.getElementById('sector-bleed');
+      if (bleedLayer) {
+        bleedLayer.style.setProperty('--bleed-rgb', firstCard.dataset.sectorRgb || '0,123,255');
+        /* Delay first bleed until the page has rendered */
+        setTimeout(function () { bleedLayer.classList.add('bleed-active'); }, 800);
+      }
+    }
+  }
+  // ══════════════════ MODULE: SECTOR_MORPHING_ENGINE — END   ══════════════════
+
+  // ── Simulation Engine + Carousel drag ──
+  initSimulationEngine();
+  initCarouselDrag();
+  initSectorCarouselInteraction();
+
+})(); // end main IIFE
+</script>
+
+</body>
+</html>
